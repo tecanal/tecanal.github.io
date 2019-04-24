@@ -38,18 +38,39 @@
     </div>
 </nav>
 
+<style>
+    /* Make Display Heading Mobile Friendly */
+    @media (max-width: 575.98px) {
+        .display-1 {
+            font-size: 3rem;
+            font-weight: 300;
+            line-height: 1.0;
+        }
+    }
+
+    /* Hide Vertical Rule on Mobile */
+    @media screen and (min-width: 600px) {
+        #eo {
+            border-right: 1px solid black
+        }
+    }
+</style>
+
 <!-- Application Banner -->
 <div class="jumbotron" id="banner">
-    <h1 class="display-1">Join the TeCommunity</h1>
-    <h2>Apply to be a part of an organization run by students to benefit the community.</h2><br>
+    <div class="container-fluid">
+        <h1 class="display-1">Join the TeCommunity</h1>
+        <h2>Apply to be a part of an organization run by students to benefit the community.</h2><br>
+    </div>
 </div>
 
+<!-- EO Information Panels -->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-6 text-center">
+        <div class="col-sm-6 text-center" id="eo">
             <h3>Executive Officer (EO)</h3>
             
-            <p>
+            <p class="lead">
                 You must be a rising sophomore, junior, or senior in high school to apply. All executive officers will be
                 expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, executive officers
                 will have meetings at least twice a month. Some of these will be online, and some of these will be
@@ -60,7 +81,7 @@
         <div class="col-sm-6 text-center">
             <h3>Volunteer Coordinator (VoCo)</h3>
             
-            <p>
+            <p class="lead">
                 You must be a rising sophomore, junior, or senior in high school to apply. All volunteer coordinators will
                 be expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, volunteer coordinators will have meetings at least once a month. Some of these will be online, and some of these will be in-person in Howard County, MD.
             </p>
