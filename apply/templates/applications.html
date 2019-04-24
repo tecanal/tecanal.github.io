@@ -1,0 +1,143 @@
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#/">TeCanal Apply</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/eo">Executive Officer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/voco">Volunteer Coordinator</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/applications">Applications</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="user">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="!user">
+            <li class="nav-item">
+                <a class="nav-link" href="#/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/register">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<h1 class="text-center" style="margin-top: 10px">Applications</h1>
+
+<!-- <div class="card">
+    <div class="card-header">
+        <b>Executive Officer (EO)</b>
+    </div>
+    <div class="card-body">
+        <p>
+            You must be a rising sophomore, junior, or senior in high school to apply. All executive officers will be
+            expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, executive officers
+            will have meetings at least twice a month. Some of these will be online, and some of these will be
+            in-person in Howard County, MD.
+        </p>
+    </div>
+    <div class="card-footer">
+        <p><b>Application Progress:</b></p>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width: {{eoInputsFilled / eoTotalInputs * 100}}%">
+                {{eoInputsFilled / eoTotalInputs * 100 | number: 0}}%
+            </div>
+        </div><br>
+        
+        <a class="btn btn-primary text-white" href="#/application/eo">
+            <span ng-show="!startedEO">Start Application</span>
+            <span ng-show="startedEO">Continue Application</span>
+        </a>
+    </div>
+</div><br> -->
+
+<div class="card">
+    <div class="card-header">
+        <b>Volunteer Coordinator (VoCo)</b>
+    </div>
+    <div class="card-body">
+        <p>
+            You must be a rising sophomore, junior, or senior in high school to apply. All volunteer coordinators will
+            be expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, volunteer coordinators
+            will have meetings at least once a month. Some of these will be online, and some of these will be in-person
+            in Howard County, MD.
+        </p>
+    </div>
+    <div class="card-footer">
+        <p><b>Application Progress:</b></p>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width: {{vocoInputsFilled / vocoTotalInputs * 100}}%">
+                {{vocoInputsFilled / vocoTotalInputs * 100 | number: 0}}%
+            </div>
+        </div><br>
+        
+        <a class="btn btn-info text-white" href="#/application/voco">
+            <span ng-show="!startedVoCo">Start Application</span>
+            <span ng-show="startedVoCo">Continue Application</span>
+        </a>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-sm-6 text-center">
+        <h3>Executive Officer (EO)</h3>
+            
+        <p>
+            You must be a rising sophomore, junior, or senior in high school to apply. All executive officers will be
+            expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, executive officers
+            will have meetings at least twice a month. Some of these will be online, and some of these will be
+            in-person in Howard County, MD.
+        </p>
+
+        <p><b>Application Progress:</b></p>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width: {{eoInputsFilled / eoTotalInputs * 100}}%">
+                {{eoInputsFilled / eoTotalInputs * 100 | number: 0}}%
+            </div>
+        </div><br>
+
+        <a class="btn btn-primary text-white" href="#/application/eo">
+            <span ng-show="!startedEO">Start Application</span>
+            <span ng-show="startedEO">Continue Application</span>
+        </a>
+    </div>
+            
+    <div class="col-sm-6 text-center">
+        <h3>Volunteer Coordinator (VoCo)</h3>
+            
+        <p>
+            You must be a rising sophomore, junior, or senior in high school to apply. All volunteer coordinators will
+            be expected to volunteer at outreach sessions in Baltimore, MD regularly. Additionally, volunteer coordinators
+            will have meetings at least once a month. Some of these will be online, and some of these will be in-person
+            in Howard County, MD.
+        </p>
+
+        <p><b>Application Progress:</b></p>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width: {{vocoInputsFilled / vocoTotalInputs * 100}}%">
+                {{vocoInputsFilled / vocoTotalInputs * 100 | number: 0}}%
+            </div>
+        </div><br>
+
+        <a class="btn btn-info text-white" href="#/application/voco">
+            <span ng-show="!startedVoCo">Start Application</span>
+            <span ng-show="startedVoCo">Continue Application</span>
+        </a>
+    </div>
+</div> -->

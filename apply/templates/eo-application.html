@@ -1,0 +1,146 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="#/">TeCanal Apply</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Home</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/eo">Executive Officer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/voco">Volunteer Coordinator</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="user">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="!user">
+            <li class="nav-item">
+                <a class="nav-link" href="#/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/register">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h1 class="page-header text-center">TeCanal Apply</h1><br>
+
+    <form>
+        <h3 class="pb-2 mt-4 mb-2 border-bottom">General Information</h3>
+
+        <div class="form-group">
+            <label for="fullName">Full Name (First + Last)</label>
+            <input type="text" ng-model="formData.fullName" class="form-control" placeholder="John Smith" name="fullName">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" ng-model="formData.email" class="form-control" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" ng-model="formData.address" id="address" class="form-control" placeholder="Enter Address" name="address">
+        </div>
+
+        <div class="form-group">
+            <label for="school">School</label>
+            <input type="text" ng-model="formData.school" ng-model-options="{debounce: {'default': 500} }" class="form-control" placeholder="Enter school">
+        </div>
+
+        <div class="form-group">
+            <label for="grade">Rising Grade</label>
+            <select ng-model="formData.risingGrade" class="custom-select" name="grade">
+                <option selected value="Sophomore">Sophomore</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="howHeard">How did you hear about TeCanal and the position?</label>
+            <textarea ng-model="formData.howHeard" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="howHeard"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>What position are you interested in most? (1 is the highest, 6 is the lowest)</label>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Executive Officer (CEO)</label>
+                <input type="number" ng-model="formData.roleRank.ceo" min="1" max="6">
+            </div>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Operating Officer (COO)</label>
+                <input type="number" ng-model="formData.roleRank.coo" min="1" max="6">
+            </div>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Financial Officer (CFO)</label>
+                <input type="number" ng-model="formData.roleRank.cfo" min="1" max="6">
+            </div>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Technology Officer (CTO)</label>
+                <input type="number" ng-model="formData.roleRank.cto" min="1" max="6">
+            </div>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Human Resources Officer (CHRO)</label>
+                <input type="number" ng-model="formData.roleRank.chro" min="1" max="6">
+            </div>
+            
+            <div class="form-group form-group-inline">
+                <label>Chief Marketing Officer (CMO)</label>
+                <input type="number" ng-model="formData.roleRank.cmo" min="1" max="6">
+            </div>
+        </div>
+
+        <h3 class="pb-2 mt-4 mb-2 border-bottom">Short Answer Questions</h3>
+        
+        <div class="form-group">
+            <label for="inspiration">What inspires you? How have you used this inspiration to contribute to your community? How will this inspiration influence your decisions and actions in the future? Your answer should be 500 words or less.</label>
+            <textarea ng-model="formData.inspiration" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="inspiration" rows="8"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="money">What would you do with ten thousand dollars? Your answer should be 250 words or less.</label>
+            <textarea ng-model="formData.money" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="money" rows="5"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="improvement">What do you think TeCanal could do better? What unique qualities and skills can you bring to TeCanal? Your answer should be 500 words or less.</label>
+            <textarea ng-model="formData.improvement" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="improvement" rows="8"></textarea>
+        </div>
+
+        <h3 class="pb-2 mt-4 mb-2 border-bottom">Uploads & Authorization</h3>
+
+        <div class="form-group">
+            <label>Resume / List of Activities</label>
+            <p ng-show="formData.resumeURL">
+                <a href="{{formData.resumeURL}}" >Uploaded Resume</a>
+                <button ng-click="deleteResume()">Delete</button>
+            </p>
+            
+            <input type="file" class="form-control-file" id="resumeUpload" fileread="resume">
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" ng-model="formData.authorization">
+            <label class="form-check-label" for="defaultCheck1">I authorize that everything I have written is true.</label>
+        </div>
+    </form>
+</div>

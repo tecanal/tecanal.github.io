@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="#/">TeCanal Apply</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/eo">Executive Officer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/voco">Volunteer Coordinator</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="user">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="!user">
+            <li class="nav-item">
+                <a class="nav-link" href="#/login">Login</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/register">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h3>Account Registration</h3>
+
+    <div class="alert alert-danger alert-dismissible" ng-hide="passwordsMatch">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Uh Oh!</strong> Your passwords don't match.
+    </div>
+
+    <form ng-submit="register()">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" ng-model="email" class="form-control" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Password</label>
+            <input type="password" ng-model="password" class="form-control" placeholder="Enter password" name="pswd">
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Confirm Password</label>
+            <input type="password" ng-model="confirmPassword" class="form-control" placeholder="Enter password again" name="pswd_con">
+        </div>
+
+        <p>Already have an account? <a href="#/login">Login here</a>.</p>
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+</div>

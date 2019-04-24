@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="#/">TeCanal Apply</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/eo">Executive Officer</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/voco">Volunteer Coordinator</a>
+            </li>
+            <li class="nav-item" ng-show="user">
+                <a class="nav-link" href="#/applications">Applications</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="user">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav" ng-show="!user">
+            <li class="nav-item">
+                <a class="nav-link" href="#/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/register">Register</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <h1 class="text-center">Volunteer Coordinator</h1>
+    <h4 class="text-center"><a href="#/application/voco">Apply Now!</a></h4>
+
+    <p>
+        TeCanal is looking for volunteer coordinators who can bring more talented students to join TeCanal as tutors for
+        the
+        underprivileged children TeCanal serves. Volunteer Coordinators are in charge of recruiting and managing TeCanal's
+        volunteers at a particular school. All Volunteer Coordinators are expected to volunteer at outreach sessions in
+        Baltimore, MD at least once a week.
+    </p>
+
+    <b>
+        Volunteer coordinators will be recruited on a quarterly basis (every three months). Here are the application
+        deadlines for the 2018-2019 academic year:
+    </b>
+    <ul>
+        <li>September 30th, 2018 at 11:59pm</li>
+        <li>December 30th, 2018 at 11:59pm</li>
+        <li>March 30th, 2019 at 11:59pm</li>
+        <li>June 30th, 2019 at 11:59pm</li>
+    </ul>
+
+    <b>Position Responsibilities:</b>
+    <ul>
+        <li>Recruit volunteers to your asssigned overseeing location</li>
+        <li>Manage volunteers at your assigned overseeing location</li>
+        <li>Meet once every month with the CHRO (Chief of Human Resources)</li>
+    </ul>
+
+    <b>
+        We are NOT looking for volunteer coordinators at the following schools:
+    </b>
+    <ul>
+        <li>Mount Hebron High School</li>
+        <li>Centennial High School</li>
+        <li>Reservoir High School</li>
+    </ul>
+
+    <p>
+        If you go to one of these schools and are interested in volunteering, please visit <a href="http://volunteer.tecanal.org">http://volunteer.tecanal.org</a> for more
+        information on how to get started.<br>
+        All high schools (public and private), other than the three listed above, are eligible for the Volunteer Coordinator
+        position.
+    </p>
+</div>

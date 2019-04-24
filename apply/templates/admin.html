@@ -1,0 +1,209 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="#/">TeCanal Apply Admin</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = ''" ng-class="{'active': !viewType}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = 'eo'" ng-class="{'active': viewType == 'eo'}">Executive Officer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = 'voco'" ng-class="{'active': viewType == 'voco'}">Volunteer Coordinator</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div ng-show="!viewType">
+        <h1>TeCanal Apply Admin Dashboard</h1><br>
+
+        <h3># of EO Applications: {{eoList.length}}</h3>
+        <h3># of VoCo Applications: {{vocoList.length}}</h3>
+    </div>
+
+    <div class="modal fade in" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{modalData.fullName}}</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+    
+                <div class="modal-body">
+                    <div ng-show="viewType == 'eo'">
+                        <ul>
+                            <li>
+                                <b>Email: </b><a href="{{modalData.email}}">{{modalData.email}}</a>
+                            </li>
+                            <li>
+                                <b>Address: </b>
+                                {{modalData.address}}
+                                <span ng-show="!modalData.address">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>School: </b>
+                                {{modalData.school}}
+                                <span ng-show="!modalData.school">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Rising Grade: </b>{{modalData.risingGrade}}
+                                <span ng-show="!modalData.risingGrade">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>How did you hear about TeCanal and the position?</b><br>
+                                {{modalData.howHeard}}
+                                <span ng-show="!modalData.howHeard">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Positions of Interest:</b>
+                                <ul>
+                                    <li><b>CEO: </b>{{modalData.roleRank.ceo}}</li>
+                                    <li><b>COO: </b>{{modalData.roleRank.coo}}</li>
+                                    <li><b>CFO: </b>{{modalData.roleRank.cfo}}</li>
+                                    <li><b>CTO: </b>{{modalData.roleRank.cto}}</li>
+                                    <li><b>CHRO: </b>{{modalData.roleRank.chro}}</li>
+                                    <li><b>CMO: </b>{{modalData.roleRank.cmo}}</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <b>What inspires you? How have you used this inspiration to contribute to your community? How will this inspiration influence your decisions and actions in the future?</b><br>
+                                {{modalData.inspiration}}
+                                <span ng-show="!modalData.inspiration">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>What would you do with ten thousand dollars?</b><br>
+                                {{modalData.money}}
+                                <span ng-show="!modalData.money">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>What do you think TeCanal could do better? What unique qualities and skills can you bring to TeCanal?</b>
+                                {{modalData.improvement}}
+                                <span ng-show="!modalData.improvement">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Resume:</b>
+                                <span ng-show="!modalData.resumeURL">Not Yet Attached</span>
+                                <a ng-show="modalData.resumeURL" href="{{modalData.resumeURL}}">Download</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div ng-show="viewType == 'voco'">
+                        <ul>
+                            <li>
+                                <b>Email: </b><a href="{{modalData.email}}">{{modalData.email}}</a>
+                            </li>
+                            <li>
+                                <b>Address: </b>
+                                {{modalData.address}}
+                                <span ng-show="!modalData.address">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>School: </b>
+                                {{modalData.school}}
+                                <span ng-show="!modalData.school">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Current Grade: </b>{{modalData.currentGrade}}
+                                <span ng-show="!modalData.currentGrade">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>How did you hear about TeCanal and the position?</b><br>
+                                {{modalData.howHeard}}
+                                <span ng-show="!modalData.howHeard">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>What drew you to this position?</b><br>
+                                {{modalData.whatDrew}}
+                                <span ng-show="!modalData.whatDrew">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Why do you think your qualified for this position?</b><br>
+                                {{modalData.whyQualified}}
+                                <span ng-show="!modalData.whyQualified">Not Yet Filled Out</span>
+                            </li>
+                            <li>
+                                <b>Resume:</b>
+                                <span ng-show="!modalData.resumeURL">Not Yet Attached</span>
+                                <a ng-show="modalData.resumeURL" href="{{modalData.resumeURL}}">Download</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="viewType == 'eo'">
+        <h1 class="text-center mb-3">Executive Officer Applicants</h1>
+
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                    Name
+                    <span ng-show="sortType == 'name' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'name' && sortReverse">&#9650;</span>
+                </th>
+                <th ng-click="sortType = 'risingGrade'; sortReverse = !sortReverse">
+                    Rising Grade
+                    <span ng-show="sortType == 'risingGrade' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'risingGrade' && sortReverse">&#9650;</span>
+                </th>
+                <th ng-click="sortType = 'school'; sortReverse = !sortReverse">
+                    School
+                    <span ng-show="sortType == 'school' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'school' && sortReverse">&#9650;</span>
+                </th>
+            </tr>
+
+            <tr ng-repeat="user in eoList | orderBy:sortType:sortReverse" ng-click="showData(user)">
+                <td>{{user.fullName}}</td>
+                <td>{{user.risingGrade}}</td>
+                <td>{{user.school}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div ng-show="viewType == 'voco'">
+        <h1 class="text-center mb-3">Volunteer Coordinator Applicants</h1>
+
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                    Name
+                    <span ng-show="sortType == 'name' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'name' && sortReverse">&#9650;</span>
+                </th>
+                <th ng-click="sortType = 'currentGrade'; sortReverse = !sortReverse">
+                    Current Grade
+                    <span ng-show="sortType == 'currentGrade' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'currentGrade' && sortReverse">&#9650;</span>
+                </th>
+                <th ng-click="sortType = 'school'; sortReverse = !sortReverse">
+                    School
+                    <span ng-show="sortType == 'school' && !sortReverse">&#9660;</span>
+                    <span ng-show="sortType == 'school' && sortReverse">&#9650;</span>
+                </th>
+            </tr>
+        
+            <tr ng-repeat="user in vocoList | orderBy:sortType:sortReverse" ng-click="showData(user)">
+                <td>{{user.fullName}}</td>
+                <td>{{user.currentGrade}}</td>
+                <td>{{user.school}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

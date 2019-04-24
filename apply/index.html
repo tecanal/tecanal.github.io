@@ -1,0 +1,52 @@
+<html ng-app="tecanal-apply">
+    <head>
+        <title>TeCanal Apply</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <style>
+            /* Home Page Styling */
+            .jumbotron { border-radius: 0px; }
+            #banner { background: #3954AE; color: white; text-align: center;}
+            .tab-pane h3 { margin-top: 15px; }
+
+            /* Admin View User Modal Styling */
+            .showModal { display: block; padding-left: 0px; }
+
+            /* Form Styling */
+            label {font-weight: bold;}
+        </style>
+
+        <!-- Firebase Imports -->
+        <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyD3LEC_qynSL40yx6aaspac61XtE5rriqc",
+                authDomain: "tecanal-apply.firebaseapp.com",
+                databaseURL: "https://tecanal-apply.firebaseio.com",
+                projectId: "tecanal-apply",
+                storageBucket: "tecanal-apply.appspot.com",
+                messagingSenderId: "144767049932"
+            };
+            firebase.initializeApp(config);
+        </script>
+
+        <!-- Bootstrap Scripts -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+        <!-- Angular App Scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+        <script src="app.js"></script>
+    </head>
+
+    <body>
+        <div ng-view></div>
+    </body>
+</html>
