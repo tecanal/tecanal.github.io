@@ -16,6 +16,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#/voco">Volunteer Coordinator</a>
             </li>
+            <li class="nav-item" ng-show="user">
+                <a class="nav-link" href="#/applications">Applications</a>
+            </li>
         </ul>
 
         <ul class="navbar-nav" ng-show="user">
@@ -72,7 +75,7 @@
 
         <div class="form-group">
             <label for="howHeard">How did you hear about TeCanal and the position?</label>
-            <textarea ng-model="formData.howHeard" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="howHeard"></textarea>
+            <textarea ng-model="formData.howHeard" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="howHeard" rows="3"></textarea>
         </div>
 
         <div class="form-group">
