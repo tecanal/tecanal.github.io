@@ -1,0 +1,119 @@
+<!doctype html>
+<html ng-app="kids-corner">
+    <head>
+        <title>TeCanal Kids' Corner</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <style>
+            nav {margin-bottom: 0px !important; border-radius: 0 !important;}
+            h3 {margin-top: 5px;}
+            .fa {font-size: 3em;}
+        </style>
+      
+        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyDi4ulICieUYT-MWDgaKjIXmuqAR3kbgRA",
+                authDomain: "tecanal-kids-corner.firebaseapp.com",
+                databaseURL: "https://tecanal-kids-corner.firebaseio.com",
+                projectId: "tecanal-kids-corner",
+                storageBucket: "tecanal-kids-corner.appspot.com",
+                messagingSenderId: "644399342741"
+            };
+            firebase.initializeApp(config);
+        </script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+   </head>
+   
+   <body ng-controller="LoginCtrl">
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                </button>
+               <a class="navbar-brand" href="/">Kids' Corner</a>
+             </div>
+             <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                   <li>
+                      <a href="index.html">Home</a>
+                   </li>
+                   <li>
+                      <a href="games/">GameLab</a>
+                   </li>
+                   <li>
+                      <a href="stem-library">STEM Free Library</a>
+                   </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="active"><a href="login"><i class="glyphicon glyphicon-user">&nbsp;</i>Login / Register</a></li>
+                </ul>
+             </div>
+          </div>
+       </nav>
+
+   <div class="container-fluid">
+       <br>
+       
+       <div class="row">
+           <div class="col-sm-5">
+                <form>
+                    <legend>Login</legend>
+        
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" placeholder="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="password" required>
+                    </div>
+                    
+                    <input type="submit" class="btn btn-success" value="Login">
+                </form>
+           </div>
+           
+           <div class="col-sm-2">
+               <h1 style="text-align: center">OR</h1>
+           </div>
+           
+           <div class="col-sm-5">
+                <form>
+                    <legend>Register</legend>
+        
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" placeholder="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="password" required>
+                    </div>
+                    
+                    <input type="submit" class="btn btn-success" value="Register">
+                </form>
+           </div>
+       </div>
+       
+   </div>
+    
+    <!-- Bootstrap Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Create Angular App Module
+        var app = angular.module('kids-corner', ["firebase"]);
+            
+        app.controller("LoginCtrl", function($scope, $window, $firebaseArray) {
+            // https://stackoverflow.com/questions/37467492/how-to-provide-user-login-with-a-username-and-not-an-email
+        });
+    </script>
+  </body>
+</html>

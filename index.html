@@ -1,25 +1,253 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html>
+<html>
+    <head>
+        <title>TeCanal</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+            blockquote{
+                font-size: 1.4em;
+                font-family:Open Sans;
+                font-style:italic;
+                color: #555555;
+                border-left:6px solid #3954AE ;
+                background:#EDEDED;
+                position: relative;
+                padding:1.2em 30px 1.2em 75px;
+            }
 
-    <!-- stylesheets local -->
-    <link rel="stylesheet" href="/css/style.css">
+            blockquote::before{
+                font-family:Arial;
+                content: "\201C";
+                color:#3954AE;
+                font-size:4em;
+                position: absolute;
+                left: 10px;
+                top:-10px;
+            }
 
-    <title>tecanal</title>
+            .row .fas { color: #3954AE; }
+        </style>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <a class="navbar-brand" href="#">TeCanal</a>
+        
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://volunteer.tecanal.org">Volunteer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://kids.tecanal.org">Kids' Corner</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="donate.html">
+                            <div>
+                                <i class="fas fa-donate fa-2x" style="vertical-align: middle; color: green"></i>
+                                <span>Donate</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-  </head>
-  <body>
-    <div class="main">
-      <div class="line"></div>
-      <div class="center">
-        <h1> tecanal </h1>
-        <p style="color:red">under construction</p>
-      </div>
-      <div class="line"></div>
-    </div>
-  </body>
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-sm-9">
+                    <h2>Our Mission</h2>
+
+                    <p>
+                        TeCanal is a people-focused, student-founded nonprofit organization tackling the issues of poor STEM (Science Technology Engineering Mathematics) education and lack of access to technology in low-income communities. As its name suggests, Te(ch)Canal aims to be a “canal”, or link, between technology and the communities that will benefit from it, connecting youth in all communities together in pursuit of a unified goal: <b>STEM education for all</b>.
+                    </p>
+
+                    <p>
+                        As society becomes more heavily technologically dependent, the importance of technology education grows. Basic STEM education is essential for success in the modern world for future generations. Unfortunately, many people in low-income or under-served areas do not have easy access to computers and the Internet. The homeless shelters, public libraries, faith-based centers, and schools that serve them, in many cases, lack up-to-date computers that can serve them. In cities like Baltimore, schools are underfunded and teachers are overworked. This leads to several problems, and many kids fall under the cracks. Without one-on-one attention, students can quickly fall behind in STEM subjects. TeCanal works to provide opportunities to access STEM education and technological resources to underprivileged persons in Maryland for success in the future.
+                    </p>
+                </div>
+
+                <div class="col-sm-3">
+                    <blockquote>
+                        <p>
+                            In 2015, The United States ranked 38th out of 71 countries in math and 24th in science.
+                        </p>
+                                
+                        <cite>- Pew Research Center</cite>
+                    </blockquote>
+                </div>
+            </div>
+
+            <h2>What We Do</h2>
+            <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <i class="fas fa-laptop fa-5x"></i>
+                            <h3 class="mt-2">Technology Resources</h3>
+                        </div>
+
+                        <div class="card-body">
+                            TeCanal receives donations of technology equipment such as computers, and distributes them to those who need it most. We believe access to technology is a fundamental need in our modern world, which is why we bring computers to every outreach, giving the students we work with a chance to learn how to interact in a technological environment.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 mb-3">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <i class="fas fa-lightbulb fa-5x"></i>
+                            <h3 class="mt-2">Inspire</h3>
+                        </div>
+                    
+                        <div class="card-body">
+                            We aim to spark interest in STEM through our fun and engaging curriculum. We want our students to be excited and ready for the new weekly challenges we present them with. We hope to motivate them to explore careers and opportunities in the rapidly-expanding world of technology.
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 mb-3">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <i class="fas fa-book fa-5x"></i>
+                            <h3 class="mt-2">STEM Education</h3>
+                        </div>
+                    
+                        <div class="card-body">
+                            Science, Technology, Engineering, and Mathematics. These are the disciplines of the future. It is our mission to bring education in these areas to our students through our diverse curriculum. Scratch, Snap Circuits, books, engineering toys, Sonic Pi, Hummingbirds, and our own TeCanal created games are just some of the tools at our disposal.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Current Outreach</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">75+ students served</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-chalkboard-teacher fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">7+ topics taught</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-history fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">4 years running</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                            <h4>Mattie B. Uzzle Outreach Center</h4>
+                            
+                            <p>
+                                At this outreach center, located on North Chester Street in Baltimore, TeCanal partners with a nonprofit organization called Baltimore Inner-City Mission (BIM). Every Friday, TeCanal’s STEM outreach program at Mattie B. Uzzle Outreach Center, which complements the academic and religious education program run by BIM, teaches a wide variety of STEM topics to children from one of the poorest areas in Baltimore.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">30+ students served</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-chalkboard-teacher fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">5+ topics taught</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-history fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">4 years running</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                            <h4>Immigration Outreach Service Center (IOSC)</h4>
+                            
+                            <p>
+                                Located at 5302 Harford Road in Baltimore, IOSC runs a tutoring program that provides academic assistance to children from immigrant families. Every Saturday, TeCanal runs a class complementing this tutoring program. The class teaches computer science using Scratch or Python.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">50+ students served</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-chalkboard-teacher fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">2 topics taught</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-history fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">3 years running</strong>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                            <h4>Creative Alliance / Tench Tilghman</h4>
+                            <p>
+                                TeCanal is working with Creative Alliance at the Tench Tilghman Elementary/Middle School. This is a STEAM (Science, Technology, Engineering, Arts, Mathematics) education program. The ability to combine technology with art is a highly valuable skill in the ever-changing job market.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">60+ students served</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-chalkboard-teacher fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">2 topics taught</strong>
+                            </div>
+                            <div class="mb-3">
+                                <i class="fas fa-history fa-3x" style="vertical-align: middle;"></i>
+                                <strong class="ml-2">3 years running</strong>
+                            </div>
+                        </div>
+                
+                        <div class="col-sm-9">
+                            <h4>English Kids to Kids: Bridging Cultures (EK2K:BC)</h4>
+                            <p>
+                                EK2K:BC is a summer camp for refugees, for which TeCanal provides computers to teach Computer Science, as well as volunteers to help administer STEM programming.
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Bootstrap JavaScript Imports -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
 </html>

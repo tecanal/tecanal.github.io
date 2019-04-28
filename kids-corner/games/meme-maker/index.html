@@ -1,0 +1,269 @@
+<html>
+
+<head>
+    <title>Meme Maker</title>
+    <meta charset="utf-8">
+    <!-- TODO Add text wrapping on resize? -->
+    <!-- TODO Add save option? -->
+    <!-- TODO Add image library to choose from pre chosen pics -->
+
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="addon/hint/show-hint.css">
+    <style type="text/css">
+        /* Extra CodeMirror CSS */
+
+        .CodeMirror {
+            border-top: 1px solid #888;
+            border-bottom: 1px solid #888;
+            height: 100%;
+        }
+
+        ul {
+            padding-left: 0
+        }
+
+        ul li {
+            display: inline;
+            border: 1px solid #000;
+            padding: 5px;
+            border-radius: 10px
+        }
+
+        li.active {
+            color: #fff;
+            background-color: #3954AE
+        }
+
+        /* Split Panel CSS */
+
+        .panel-left,
+        .panel-right {
+            padding: 10px;
+            min-height: 200px
+        }
+
+        .page-container {
+            margin: 20px
+        }
+
+        .panel-container {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid silver;
+            overflow: hidden;
+            xtouch-action: none
+        }
+
+        .panel-left {
+            flex: 0 0 auto;
+            width: 300px;
+            min-width: 150px;
+            white-space: nowrap;
+            background: #838383;
+            color: #fff
+        }
+
+        .splitter {
+            flex: 0 0 auto;
+            width: 18px;
+            background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+            min-height: 200px;
+            cursor: col-resize
+        }
+
+        .panel-right {
+            flex: 1 1 auto;
+            width: 100%;
+            min-width: 200px;
+            background: #eee
+        }
+    </style>
+    <style id="userStyle">
+        h1,
+        h2,
+        img {
+            margin: 0 auto;
+            width: 100%
+        }
+
+        #meme {
+            position: relative;
+            margin: 50px auto;
+            width: 600px
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+            color: #fff;
+            font-family: Impact;
+            position: absolute
+        }
+
+        h1 {
+            font-size: 68px;
+            top: 15px
+        }
+
+        h2 {
+            font-size: 50px;
+            bottom: 20px
+        }
+
+        img {
+            border: 10px solid #fff;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, .4);
+            display: block;
+            box-sizing: border-box
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sitebody">
+        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
+                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 13px;"
+                        href="http://www.kids.tecanal.org">Back to Kids' Corner</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
+                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
+                        </li>
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
+                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+
+<body>
+    <!-- HTML Code Container (Holds written code, this is not the preview) -->
+    <div id="html" style="display:none">
+        <div id="meme">
+            <img src="https://stuff.webmaker.org/doge.jpg">
+
+            <h1>TOP CAPTION</h1>
+
+            <h2>BOTTOM CAPTION</h2>
+        </div>
+    </div>
+
+    <!-- CSS Code Container -->
+    <div id="css" style="display: none">
+        #meme { position: relative; margin: 50px auto; width: 600px; } h1, h2 { font-family: Impact, "Helvetica Neue", sans-serif;
+        text-align: center; margin: 0 auto; width: 100%; text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000,
+        3px 3px 0 #000; } h1 { color: white; font-family: Impact; font-size: 68px; position: absolute; top: 15px; } h2 {
+        color: white; font-family: Impact; font-size: 50px; position: absolute; bottom: 20px; width: 100%; } img { border:
+        10px solid white; box-shadow: 0px 3px 5px rgba(0,0,0,.4); margin: 0 auto; display: block; box-sizing: border-box;
+        width: 100%; }
+    </div>
+
+    <!-- Menu -->
+    <ul>
+        <li class="active">index.html</li>
+        <li>style.css</li>
+    </ul>
+
+    <div class="panel-container">
+        <!-- CodeMirrorEditor -->
+        <div class="panel-left" style="width: 50%">
+            <div id="editor"></div>
+        </div>
+
+        <div class="splitter"></div>
+
+        <!-- HTML Preview -->
+        <div class="panel-right">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <!-- CodeMirror JavaScript -->
+    <script src="lib/codemirror.js"></script>
+    <script src="addon/hint/show-hint.js"></script>
+    <script src="addon/hint/xml-hint.js"></script>
+    <script src="addon/hint/html-hint.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="mode/css/css.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+
+    <!-- Splitter Panel JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-resizable.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            // Create splitter panel
+            $(".panel-left").resizable({
+                handleSelector: ".splitter",
+                resizeHeight: false
+            });
+
+            // Create CodeMirror editor
+            var editor = CodeMirror(document.getElementById("editor"), {
+                mode: "text/html",
+                lineNumbers: true,
+                value: document.getElementById("html").innerHTML.trim()
+            });
+
+            // When the editor is updated handler
+            var delay;
+            editor.on("change", function () {
+                clearTimeout(delay);
+                delay = setTimeout(updatePreview, 300);
+            });
+
+            // Function that is called when the editor is updated to updat the preview
+            var currentTab = "index.html";
+            function updatePreview() {
+                if (currentTab == "index.html") {
+                    var preview = document.getElementById('preview');
+                    document.getElementById("html").innerHTML = editor.getValue();
+                    preview.innerHTML = document.getElementById("html").innerHTML.trim();
+                }
+                else if (currentTab == "style.css") {
+                    document.getElementById("css").innerHTML = editor.getValue();
+                    document.getElementById("userStyle").innerHTML = editor.getValue();
+                }
+            }
+
+            setTimeout(updatePreview, 300);
+
+            // Add click listener to the menu file tabs
+            for (var li of document.getElementsByTagName("LI")) {
+                li.addEventListener("click", function (e) {
+                    document.getElementsByClassName("active")[0].className = "";
+                    e.srcElement.className = "active";
+                    currentTab = e.srcElement.innerHTML;
+
+                    if (currentTab == "index.html") {
+                        editor.setValue(document.getElementById("html").innerHTML.trim());
+                        editor.setOption("mode", "text/html");
+                    }
+                    else if (currentTab == "style.css") {
+                        editor.setValue(document.getElementById("css").innerHTML.trim());
+                        editor.setOption("mode", "css");
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>

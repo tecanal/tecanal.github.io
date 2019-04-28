@@ -1,0 +1,361 @@
+<html>
+
+<head>
+    <title>Webcomic Creator</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="addon/hint/show-hint.css">
+    <style type="text/css">
+        /* Extra CodeMirror CSS */
+
+        .CodeMirror {
+            border-top: 1px solid #888;
+            border-bottom: 1px solid #888;
+            height: 100%;
+        }
+
+        ul {
+            padding-left: 0
+        }
+
+        ul li {
+            display: inline;
+            border: 1px solid #000;
+            padding: 5px;
+            border-radius: 10px
+        }
+
+        li.active {
+            color: #fff;
+            background-color: #3954AE
+        }
+
+        /* Split Panel CSS */
+
+        .panel-left,
+        .panel-right {
+            padding: 10px;
+            min-height: 200px
+        }
+
+        .page-container {
+            margin: 20px
+        }
+
+        .panel-container {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid silver;
+            overflow: hidden;
+            xtouch-action: none
+        }
+
+        .panel-left {
+            flex: 0 0 auto;
+            width: 300px;
+            min-width: 150px;
+            white-space: nowrap;
+            background: #838383;
+            color: #fff
+        }
+
+        .splitter {
+            flex: 0 0 auto;
+            width: 18px;
+            background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+            min-height: 200px;
+            cursor: col-resize
+        }
+
+        .panel-right {
+            flex: 1 1 auto;
+            width: 100%;
+            min-width: 200px;
+            background: #eee
+        }
+    </style>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 8px;
+        }
+
+        #preview {
+            padding-bottom: 5%;
+        }
+
+        #mode_selector {
+            margin-top: 2.5%;
+            height: 5%;
+            line-height: 2.5;
+        }
+
+        .panel-left,
+        .panel-right {
+            height: 95%;
+        }
+    </style>
+    <style id="userStyle">
+        p.bottomLeft,
+        p.topLeft {
+            border-right: 2px solid #000
+        }
+
+        p.bottomRight,
+        p.topRight {
+            border-left: 2px solid #000
+        }
+
+        p.topCenter,
+        p.topLeft,
+        p.topRight {
+            border-bottom: 2px solid #000;
+            top: -1em
+        }
+
+        p.bottomCenter,
+        p.bottomLeft,
+        p.bottomRight {
+            border-top: 2px solid #000;
+            bottom: -1em
+        }
+
+        p.bottomCenter,
+        p.topCenter {
+            text-align: center;
+            left: 0;
+            right: 0
+        }
+
+        body {
+            font-family: Arial
+        }
+
+        .panel {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            margin: 2px;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000
+        }
+
+        img {
+            max-height: 100%;
+            display: block;
+            margin: 0 auto
+        }
+
+        p.bottomCenter,
+        p.bottomLeft,
+        p.bottomRight,
+        p.topCenter,
+        p.topLeft,
+        p.topRight {
+            padding: 5px;
+            margin-right: -2px
+        }
+
+        p {
+            position: absolute;
+            background: #fff;
+            font-size: 10pt
+        }
+
+        p.bottomRight,
+        p.topRight {
+            right: 0
+        }
+    </style>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-XXXXX-Y', 'auto');
+        ga('send', 'pageview', location.pathname);
+    </script>
+</head>
+
+<body>
+    <div class="sitebody">
+        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
+                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 1px;"
+                        href="http://www.kids.tecanal.org">Back to Kids' Corner</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
+                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
+                        </li>
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
+                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+
+<body>
+    <!-- HTML Code Container (Holds written code, this is not the preview) -->
+    <div id="html" style="display:none">
+        <h1>Add your title here!</h1>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="bottomLeft">Add your own text here!</p>
+        </div>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="bottomRight">Add your own text here!</p>
+        </div>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="topLeft">Add your own text here!</p>
+        </div>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="topRight">Add your own text here!</p>
+        </div>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="topCenter">Add your own text here!</p>
+        </div>
+
+        <div class="panel">
+            <img src="https://spaceplace.nasa.gov/templates/featured/sun/sunburn300.png">
+            <p class="bottomCenter">Add your own text here!</p>
+        </div>
+    </div>
+
+    <!-- CSS Code Container -->
+    <div id="css" style="display: none">
+        body { background-color: white; font-family: Arial; } .panel { display: inline-block; position: relative; overflow: hidden;
+        margin: 2px; background-color: white; width: 200px; height: 200px; border: 2px solid black; } img { max-height: 100%;
+        display: block; margin: 0 auto; } p { position: absolute; background: white; font-size: 10pt; } p.bottomLeft { bottom:
+        -1em; border-top: 2px solid black; border-right: 2px solid black; padding: 5px; margin-right: -2px; } p.topLeft {
+        top: -1em; border-bottom: 2px solid black; border-right: 2px solid black; padding: 5px; margin-right: -2px; } p.bottomRight
+        { bottom: -1em; right: 0em; border-top: 2px solid black; border-left: 2px solid black; padding: 5px; margin-right:
+        -2px; } p.topRight { top: -1em; right: 0em; border-bottom: 2px solid black; border-left: 2px solid black; padding:
+        5px; margin-right: -2px; } p.topCenter { border-bottom: 2px solid black; text-align: center; top: -1em; left: 0;
+        right: 0; padding: 5px; margin-right: -2px; } p.bottomCenter { border-top: 2px solid black; text-align: center; bottom:
+        -1em; left: 0; right: 0; padding: 5px; margin-right: -2px; }
+    </div>
+
+    <!-- Menu -->
+    <ul id="mode_selector">
+        <li class="active">index.html</li>
+        <li>style.css</li>
+    </ul>
+
+    <div class="panel-container">
+        <!-- CodeMirrorEditor -->
+        <div class="panel-left" style="width: 50%">
+            <div id="editor"></div>
+        </div>
+
+        <div class="splitter"></div>
+
+        <!-- HTML Preview -->
+        <div class="panel-right" style="overflow: scroll">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <!-- CodeMirror JavaScript -->
+    <script src="lib/codemirror.js"></script>
+    <script src="addon/edit/closetag.js"></script>
+    <script src="addon/edit/closebrackets.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+    <script src="mode/css/css.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+
+    <!-- Splitter Panel JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-resizable.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            // Create splitter panel
+            $(".panel-left").resizable({
+                handleSelector: ".splitter",
+                resizeHeight: false
+            });
+
+            // Create CodeMirror editor
+            var editor = CodeMirror(document.getElementById("editor"), {
+                mode: "htmlmixed",
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                lineNumbers: true,
+                value: document.getElementById("html").innerHTML.trim()
+            });
+
+            // When the editor is updated handler
+            var delay;
+            editor.on("change", function () {
+                clearTimeout(delay);
+                delay = setTimeout(updatePreview, 300);
+            });
+
+            // Function that is called when the editor is updated to updat the preview
+            var currentTab = "index.html";
+            function updatePreview() {
+                if (currentTab == "index.html") {
+                    var preview = document.getElementById('preview');
+                    document.getElementById("html").innerHTML = editor.getValue();
+                    preview.innerHTML = document.getElementById("html").innerHTML.trim();
+                }
+                else if (currentTab == "style.css") {
+                    document.getElementById("css").innerHTML = editor.getValue();
+                    document.getElementById("userStyle").innerHTML = editor.getValue();
+                }
+            }
+
+            setTimeout(updatePreview, 300);
+
+            // Add click listener to the menu file tabs
+            for (var li of document.getElementsByTagName("LI")) {
+                li.addEventListener("click", function (e) {
+                    document.getElementsByClassName("active")[0].className = "";
+                    e.srcElement.className = "active";
+                    currentTab = e.srcElement.innerHTML;
+
+                    if (currentTab == "index.html") {
+                        editor.setValue(document.getElementById("html").innerHTML.trim());
+                        editor.setOption("mode", "text/html");
+                    }
+                    else if (currentTab == "style.css") {
+                        editor.setValue(document.getElementById("css").innerHTML.trim());
+                        editor.setOption("mode", "css");
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<html>
+
+<head>
+    <title>Pixel Studio</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="addon/hint/show-hint.css">
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        td {
+            padding: 20px;
+        }
+
+        .panel-container {
+            height: 100%;
+        }
+
+        #editor {
+            padding-bottom: 10px;
+        }
+
+        /* Extra CodeMirror CSS */
+
+        .CodeMirror {
+            border-top: 1px solid #888;
+            border-bottom: 1px solid #888;
+            height: 99%;
+        }
+
+        /* Split Panel CSS */
+
+        .panel-left,
+        .panel-right {
+            padding: 10px;
+            min-height: 200px
+        }
+
+        .page-container {
+            margin: 20px
+        }
+
+        .panel-container {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid silver;
+            overflow: hidden;
+            xtouch-action: none
+        }
+
+        .panel-left {
+            flex: 0 0 auto;
+            width: 300px;
+            min-width: 150px;
+            white-space: nowrap;
+            background: #838383;
+            color: #fff
+        }
+
+        .splitter {
+            flex: 0 0 auto;
+            width: 18px;
+            background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+            min-height: 200px;
+            cursor: col-resize
+        }
+
+        .panel-right {
+            flex: 1 1 auto;
+            width: 100%;
+            min-width: 200px;
+            background: #eee
+        }
+    </style>
+    <style id="userStyle">
+        body {
+            font-family: sans-serif
+        }
+
+        #menu {
+            padding-left: 0
+        }
+
+        #menu li {
+            display: inline
+        }
+
+        #menu li:after {
+            content: "/"
+        }
+
+        #menu li:last-child:after {
+            content: ""
+        }
+
+        .post {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 20px
+        }
+
+        .post h2 {
+            margin-bottom: 5px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sitebody">
+        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
+                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 13px;"
+                        href="http://www.kids.tecanal.org">Back to Kids' Corner</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
+                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
+                        </li>
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
+                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+
+<body>
+    <div class="panel-container">
+        <!-- CodeMirrorEditor -->
+        <div class="panel-left" style="width: 50%">
+            <div id="editor"></div>
+        </div>
+
+        <div class="splitter"></div>
+
+        <!-- HTML Preview -->
+        <div class="panel-right" style="height: 100%; overflow: scroll">
+            <div id="preview">
+                <table id="mosaic"></table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CodeMirror JavaScript -->
+    <script src="lib/codemirror.js"></script>
+    <script src="addon/edit/closetag.js"></script>
+    <script src="addon/edit/closebrackets.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+
+    <!-- Splitter Panel JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-resizable.min.js"></script>
+
+    <script>
+        var table = document.getElementById("mosaic");
+
+        function Picture(height, width) {
+            this.height = height;
+            this.width = width;
+
+            table.innerHTML = "";
+
+            // Create table with height and width parameters
+            for (var i = 0; i < height; i++) {
+                var row = table.insertRow(i);
+                for (var j = 0; j < width; j++) {
+                    row.insertCell(j);
+                }
+            }
+
+            this.cellColors = [];
+            for (var i = 0; i < this.height; i++) {
+                var row = [];
+
+                for (var j = 0; j < this.width; j++)
+                    row.push("#ffffff");
+
+                this.cellColors.push(row);
+            }
+
+            this.setPixel = function (color, x, y) {
+                this.cellColors[this.height - 1 - y][x] = color;
+            };
+
+            this.updatePicture = function () {
+                var rows = table.rows;
+
+                // Set the colors of all the cells
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+
+                    for (var j = 0; j < row.children.length; j++)
+                        row.children[j].style.backgroundColor = this.cellColors[i][j];
+                }
+            };
+        }
+    </script>
+    <script>
+        window.onload = function () {
+            // Create splitter panel
+            $(".panel-left").resizable({
+                handleSelector: ".splitter",
+                resizeHeight: false
+            });
+
+            // Create CodeMirror editor
+            var editor = CodeMirror(document.getElementById("editor"), {
+                mode: "javascript",
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                lineNumbers: true,
+                value: "var img = new Picture(5, 5);\n\nimg.setPixel('black', 0, 0);\n\nimg.updatePicture();"
+            });
+
+            // When the editor is updated handler
+            var delay;
+            var firstRun = true;
+
+            executeCode();
+
+            function executeCode() {
+                // Clear all intervals if its an animation
+                for (var i = 1; i < 999999; i++)
+                    window.clearInterval(i);
+
+                // Get code from editor
+                var code = editor.getValue();
+
+                // Add code as a script to page + execute
+                var script = document.createElement('script');
+                try {
+                    // If its first time executing something
+                    if (firstRun) {
+                        // Add script tag
+                        script.appendChild(document.createTextNode(code));
+                        document.body.appendChild(script);
+                    }
+                    else {
+                        // Remove old code
+                        document.body.removeChild(document.body.lastChild);
+
+                        // Add new code
+                        script.appendChild(document.createTextNode(code));
+                        document.body.appendChild(script);
+                    }
+                    firstRun = false;
+                } catch (e) {
+                    script.text = code;
+                    document.body.appendChild(script);
+                }
+            }
+
+            editor.on("change", function () {
+                clearTimeout(delay);
+                delay = setTimeout(executeCode, 300);
+            });
+        };
+    </script>
+</body>
+
+</html>

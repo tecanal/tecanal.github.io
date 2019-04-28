@@ -1,0 +1,514 @@
+<html>
+
+<head>
+    <title>Math Matrix</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+
+    <style>
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: -moz-none;
+            -ms-user-select: none;
+            user-select: none;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input, textarea {-moz-user-select: text;}
+
+        #instructions {
+            background-color: green;
+            color: white;
+            padding: 10 14 10 14px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        #reload {
+            background-color: green;
+            color: white;
+            padding: 8.65 15 8.5 15px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        #checkAnswer {
+            background-color: green;
+            color: white;
+            padding: 10 20 10 20px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            text-align: left;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #0275d8;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 2px 16px;
+        }
+
+        #matrix {
+            border-spacing: 10px;
+        }
+
+        #matrix td {
+            font-size: 20px;
+            text-align: center;
+            padding: 5px;
+            border: 3px solid black;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        #matrix td.selected {
+            border: 3px solid yellow;
+        }
+
+        #answer td {
+            font-size: 30px;
+            text-align: center;
+            border: 1px solid black;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+
+        #answer input {
+            width: 100%;
+            height: 100%;
+        }
+
+        #answer input[type="text"] {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sitebody">
+        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
+                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 13px;"
+                        href="http://www.kids.tecanal.org">Kids' Corner</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
+                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
+                        </li>
+                        <li>
+                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
+                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+
+<body>
+    <center>
+        <h1>Math Matrix</h1>
+
+        <button id="instructions">ⓘ</button>
+        <button id="reload" onclick="reset()">↻</button>
+        <br>
+        <br>
+
+        <p id="wrong" style="display: none; width: 100%; background-color: red; padding: 10 0 10 0px; color: white;">Wrong!</p>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2>Instructions</h2>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li>Choose numbers that are either horizontally, vertically, or diagonally related together.</li>
+                        <li>In between the numbers, utilize the operation blocks to put either +, -, *, /, or =.</li>
+                        <li>When you have a equation, hit the check answer box, or press enter while focused in an operation
+                            block.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div id="congrats" class="modal" style="display: none">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="this.style.display = 'none';">&times;</span>
+                    <h2>Congratulations!</h2>
+                </div>
+                <div class="modal-body">
+                    <p>You won!!!</p>
+                </div>
+            </div>
+        </div>
+
+        <table id="matrix">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table id="answer">
+            <tr id="row"></tr>
+        </table>
+
+        <button id="checkAnswer" onclick="checkAnswer()">✓</button>
+    </center>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("instructions");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        window.onload = populateMatrix;
+
+        function populateMatrix() {
+            // For every single table cell element
+            for (var cell of document.getElementById("matrix").getElementsByTagName("TD")) {
+                // Give the table cell a random number
+                cell.innerHTML = Math.floor(1 + (Math.random() * 25));
+
+                // Add a click event listener
+                cell.addEventListener("click", onCellClick);
+            }
+        }
+
+        function reset() {
+            // Reset all complete cells to no background color
+            for (var el of document.getElementsByTagName("TD"))
+                el.style.backgroundColor = "white";
+
+            // Generate new random numbers for matrix
+            populateMatrix();
+
+            // Clear answer row
+            document.getElementById("row").innerHTML = "";
+
+            // De-select any selected items
+            var selected = Array.prototype.slice.call(document.getElementsByClassName('selected'));
+            for (var i = 0; i < selected.length; i++) {
+                selected[i].className = "";
+            }
+        }
+
+        // Add Enter key listener to the operation block input elements
+        function addEnterListener() {
+            for (var input of document.getElementsByTagName("INPUT")) {
+                input.addEventListener('keydown', function (e) {
+                    if (e.keyCode === 13) checkAnswer();
+                });
+            }
+        }
+
+        function isComplete() {
+            var cells = document.getElementsByTagName("TD");
+            var numComplete = 0;
+            for (var i = 0; i < cells.length; i++) {
+                if (cells[i].style.backgroundColor == "green")
+                    numComplete++;
+            }
+
+            if (numComplete == 25) {
+                document.getElementById("congrats").style.display = "block";
+            }
+        }
+
+        function onCellClick() {
+            isComplete();
+
+            // Deselect a table cell
+            if (this.className == "selected") {
+                this.className = "";
+
+                // Deselect neighborless blocks
+                var selected = document.getElementsByClassName("selected");
+                for (var i = 0; i < selected.length; i++) {
+                    var cellRowIndex = selected[i].parentNode.rowIndex;
+                    var cellColIndex = selected[i].cellIndex;
+
+                    for (var j = 0; j < selected.length; j++) {
+                        var currRowIndex = selected[j].parentNode.rowIndex;
+                        var currColIndex = selected[j].cellIndex;
+
+                        if (cellRowIndex == currRowIndex
+                            && (cellColIndex + 1 == currColIndex
+                                || cellColIndex - 1 == currColIndex)) {
+                            continue;
+                        }
+                        else if (cellColIndex == currColIndex
+                            && (cellRowIndex + 1 == currRowIndex
+                                || cellRowIndex - 1 == currRowIndex)) {
+                            continue;
+                        }
+                        else if ((cellColIndex + 1 == currColIndex || cellColIndex - 1 == currColIndex)
+                            && (cellRowIndex + 1 == currRowIndex || cellRowIndex - 1 == currRowIndex)) {
+                            continue;
+                        }
+
+                        break;
+                    }
+                }
+
+                document.getElementById("answer").innerHTML = "";
+
+                var selected = Array.prototype.slice.call(document.getElementsByClassName('selected'));
+                for (var i = 0; i < selected.length; i++)
+                    selected[i].className = "";
+                return;
+            }
+
+            // If it is the first cell to be selected
+            var numSelected = document.getElementsByClassName("selected").length;
+            if (this.className == "" && numSelected == 0) {
+                this.className = "selected";
+
+                // Create row element just in case tbody contains nothing
+                document.getElementById("answer").innerHTML = '<tr id="row"></tr>';
+                $("#row").sortable();
+
+                // Append number to answer row
+                document.getElementById("row").innerHTML += '<td>' + this.innerHTML + '</td>';
+
+                return;
+            }
+
+            for (var cell of document.getElementsByClassName("selected")) {
+                var selectedRowIndex = cell.parentNode.rowIndex;
+                var selectedColIndex = cell.cellIndex;
+
+                var candidateRowIndex = this.parentNode.rowIndex;
+                var candidateColIndex = this.cellIndex;
+
+                // Check for horizontal spatial relationship
+                if (candidateRowIndex == selectedRowIndex
+                    && (candidateColIndex + 1 == selectedColIndex
+                        || candidateColIndex - 1 == selectedColIndex)) {
+                    this.className = "selected";
+
+                    // Add operation and number cell
+                    document.getElementById("row").innerHTML += '<td><input type="text" class="operation"></td>';
+                    document.getElementById("row").innerHTML += '<td>' + this.innerHTML + '</td>';
+
+                    addEnterListener();
+
+                    return;
+                }
+                // Check for vertical spatial relationship
+                else if (candidateColIndex == selectedColIndex
+                    && (candidateRowIndex + 1 == selectedRowIndex
+                        || candidateRowIndex - 1 == selectedRowIndex)) {
+                    this.className = "selected";
+
+                    // Add operation and number cell
+                    document.getElementById("row").innerHTML += '<td><input type="text" class="operation"></td>';
+                    document.getElementById("row").innerHTML += '<td>' + this.innerHTML + '</td>';
+
+                    addEnterListener();
+
+                    return;
+                }
+                // Check for diagonal spatial relationship
+                else if ((candidateColIndex + 1 == selectedColIndex || candidateColIndex - 1 == selectedColIndex)
+                    && (candidateRowIndex + 1 == selectedRowIndex || candidateRowIndex - 1 == selectedRowIndex)) {
+                    this.className = "selected";
+
+                    // Add operation and number cell
+                    document.getElementById("row").innerHTML += '<td><input type="text" class="operation"></td>';
+                    document.getElementById("row").innerHTML += '<td>' + this.innerHTML + '</td>';
+
+                    addEnterListener();
+
+                    return;
+                }
+            }
+        }
+
+        function checkAnswer() {
+            var elements = document.getElementById("row").getElementsByTagName("TD");
+
+            var equation = "";
+            var ans = 0;
+            for (var i = 0; i < elements.length; i++) {
+                var el = elements[i].childNodes[0];
+
+                // Add operation to equation
+                if (el.value != undefined && i != elements.length - 2)
+                    equation += el.value;
+                // Set answer
+                else if (i == elements.length - 1)
+                    ans = parseInt(el.parentNode.innerHTML);
+                // Don't add equals symbol
+                else if (i == elements.length - 2) {
+                    // Do nothing
+                }
+                // Add numbers to equation
+                else
+                    equation += el.parentNode.innerHTML;
+            }
+
+            // If the equation is correct
+            if (eval(equation) == ans) {
+                var selected = Array.prototype.slice.call(document.getElementsByClassName('selected'));
+                for (var i = 0; i < selected.length; i++) {
+                    selected[i].className = "";
+                    selected[i].style.backgroundColor = "green";
+                }
+
+                document.getElementById("answer").innerHTML = "";
+
+                return;
+            }
+            else {
+                document.getElementById("wrong").style.display = "";
+
+                setTimeout(function () {
+                    document.getElementById("wrong").style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>

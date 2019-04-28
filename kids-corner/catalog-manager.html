@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="stem-library">
+    <head>
+        <title>Catalog Manager</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+        <script>
+         /* global firebase */
+         
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYpIxsf0Vu0OZ09ZXD7iovMIcGs4D2nW8",
+            authDomain: "stem-library.firebaseapp.com",
+            databaseURL: "https://stem-library.firebaseio.com",
+            projectId: "stem-library",
+            storageBucket: "stem-library.appspot.com",
+            messagingSenderId: "703568651711"
+          };
+          firebase.initializeApp(config);
+        </script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+        <script>
+            /* global angular, firebase */
+            
+            // Create Angular App Module
+            var app = angular.module('stem-library', ["firebase"]);
+            
+            app.controller("CatalogCtrl", function($scope, $window, $firebaseArray) {
+                var ref = firebase.database().ref().child("catalog");
+                $scope.catalog = $firebaseArray(ref);
+                
+                $scope.start = 0;
+                $scope.page = 0;
+                $scope.pages = [];
+                $scope.currentBook = -1;
+                
+                $scope.catalog.$loaded(function() {
+                    $scope.pages = [];
+                   
+                    var len = Math.ceil($scope.catalog.length / 5);
+                   
+                    for (var i = 1; i <= len; i++)
+                        $scope.pages.push(i);
+                });
+                
+                $scope.addBook = function() {
+                    if ($scope.pdf_download == undefined)
+                        $scope.pdf_download = "N/A";
+                    
+                    if ($scope.epub_download == undefined)
+                        $scope.epub_download = "N/A";
+                    
+                    // If the book already exists
+                    if ($scope.currentBook != -1) {
+                        var book = $scope.catalog[$scope.currentBook];
+                        
+                        book.title = $scope.title;
+                        book.author = $scope.author;
+                        book.description = $scope.description;
+                        book.age_range = $scope.age_range;
+                        book.type = $scope.type;
+                        book.category = $scope.category;
+                        book.download_links.pdf = $scope.pdf_download;
+                        book.download_links.epub = $scope.epub_download;
+                        book.source = $scope.source;
+                        book.cover = $scope.cover;
+                        
+                        $scope.catalog.$save(book)
+                        .then(function() {
+                            alert($scope.title + " was successfully updated.");
+                            
+                            $scope.clear();
+                        });
+                    }
+                    // If its a new book
+                    else {
+                        $scope.catalog.$add({
+                            "title": $scope.title,
+                            "author": $scope.author,
+                            "description": $scope.description,
+                            "age_range": $scope.age_range,
+                            "type": $scope.type,
+                            "category": $scope.category,
+                            "download_links": {
+                                "pdf": $scope.pdf_download,
+                                "epub": $scope.epub_download
+                            },
+                            "download_count": 0,
+                            "source": $scope.source,
+                            "cover": $scope.cover
+                        })
+                        .then(function() {
+                            // Show succcess message
+                            alert($scope.title + " was submitted to the catalog successfully.");
+                            
+                            $scope.clear();
+                        });
+                    }
+                };
+                
+                $scope.clear = function() {
+                    $scope.currentBook = -1;
+                    
+                    $scope.title = "";
+                    $scope.author = "";
+                    $scope.description = "";
+                    $scope.age_range = "";
+                    $scope.type = "";
+                    $scope.category = "";
+                    $scope.pdf_download = "";
+                    $scope.epub_download = "";
+                    $scope.source = "";
+                    $scope.cover = "";
+                }
+                
+                $scope.editBook = function(index) {
+                    var book = $scope.catalog[index + ($scope.start)];
+                    
+                    $scope.currentBook = index;
+                    
+                    $scope.title = book.title;
+                    $scope.author = book.author;
+                    $scope.description = book.description;
+                    $scope.age_range = book.age_range;
+                    $scope.type = book.type;
+                    $scope.category = book.category;
+                    $scope.pdf_download = book.download_links.pdf;
+                    $scope.epub_download = book.download_links.epub;
+                    $scope.source = book.source;
+                    $scope.cover = book.cover;
+                };
+                
+                $scope.changePage = function(page) {
+                    $scope.page = page;
+                    
+                    $scope.start = 5 * page;
+                };
+            });
+        </script>
+    </head>
+
+    <body ng-controller="CatalogCtrl">
+        <div class="container">
+            <h1 style="text-align: center">TeCanal Kid's Corner STEM Library Catalog Manager</h1>
+            
+             <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse1">Edit Existing Book</a>
+                        </h4>
+                    </div>
+                    
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="book in catalog | limitTo: 5 : start" ng-click="editBook($index)">{{book.title}} by {{book.author}}</li>
+                            </ul>
+                            
+                            <ul class="pagination" style="margin-top: 0px">
+                                <li ng-repeat="num in pages" ng-click="changePage($index)" ng-class="{'active' : page == $index}"><a href="#">{{num}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form ng-submit="addBook()">
+                <h3>Add Book</h3>
+                
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label>Title</label>
+                            <input class="form-control" type="text" ng-model="title" name="title"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Author</label>
+                            <input class="form-control" type="text" ng-model="author" name="author"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Description</label>
+                            <textarea class="form-control" ng-model="description" name="description"></textarea>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Age Range</label>
+                            <input class="form-control" type="text" ng-model="age_range" name="age_range"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Type (Book, Comic, Audiobook)</label>
+                            <input class="form-control" type="text" ng-model="type" name="type"/>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <label>Category (Science, Technology, Engineering, or Matematics)</label>
+                            <input class="form-control" type="text" ng-model="category" name="category"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>PDF Download</label>
+                            <input class="form-control" type="text" ng-model="pdf_download" name="title"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>EPUB Download</label>
+                            <input class="form-control" type="text" ng-model="epub_download" name="title"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Source URL</label>
+                            <input class="form-control" type="url" ng-model="source" name="title"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Cover Image URL</label>
+                            <input class="form-control" type="url" ng-model="cover" name="title"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <center>
+                    <br>
+                    <a class="btn btn-danger" ng-click="clear()" href="#">Clear Form</a>
+                    <input class="btn btn-success" type="submit" value="Add Book">
+                    
+                </center>
+            </form>
+        </div>
+                
+        <!-- Bootstrap Scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>
