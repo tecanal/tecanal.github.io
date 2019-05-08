@@ -380,7 +380,7 @@ app.controller("EOApplicationCtrl", function ($scope, $location, $firebaseObject
     /**
      * Listens for auth state and sets user variable to it.
      */
-    $scope.auth.$onAuthStateChanged(function (firebaseUser) {
+    $scope.auth.$onAuthStateChanged(function(firebaseUser) {
         // Save the user object to scope if session has a login
         if (firebaseUser)
             $scope.user = firebaseUser;
@@ -392,12 +392,12 @@ app.controller("EOApplicationCtrl", function ($scope, $location, $firebaseObject
     /**
      * Allows the user to delete their uploaded resume without having to replace it with something else.
      */
-    $scope.deleteResume = function () {
+    $scope.deleteResume = function() {
         var storageRef = firebase.storage().ref().child("resumes/" + $scope.user.uid + "/" + $scope.formData.resumeName);
         $scope.storage = $firebaseStorage(storageRef);
 
         // Delete the resume from Firebase
-        $scope.storage.$delete().then(function () {
+        $scope.storage.$delete().then(function() {
             // Delete old resume info
             $scope.formData.resumeURL = "";
             $scope.formData.resumeName = "";
@@ -405,9 +405,16 @@ app.controller("EOApplicationCtrl", function ($scope, $location, $firebaseObject
     };
 
     /**
+     * Show information about applications after the user has submitted theirs.
+     */
+    $scope.showSubmissionPage = function() {
+        $("#myModal").modal('show');
+    };
+
+    /**
      * Logs the user out of the application view and go back to home.
      */
-    $scope.logout = function () {
+    $scope.logout = function() {
         // Sign out of Firebase
         $scope.auth.$signOut();
     };
@@ -511,6 +518,13 @@ app.controller("VoCoApplicationCtrl", function($scope, $location, $firebaseObjec
             $scope.formData.resumeURL = "";
             $scope.formData.resumeName = "";
         });
+    };
+
+    /**
+     * Show information about applications after the user has submitted theirs.
+     */
+    $scope.showSubmissionPage = function () {
+        $("#myModal").modal('show');
     };
 
     /**

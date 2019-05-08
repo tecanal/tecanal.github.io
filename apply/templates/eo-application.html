@@ -41,6 +41,23 @@
 <div class="container-fluid">
     <h1 class="page-header text-center">TeCanal Apply</h1><br>
 
+    <div class="modal fade in" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thank you for submitting!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+    
+                <div class="modal-body">
+                    <p>
+                        You have successfully submitted you application. The deadline is Saturday, June 1st at 11:59 PM and you can continue to modify your application until then. We will contact applicants to let them know whether or not they have been selected for an interview within a week of the deadline.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <form>
         <h3 class="pb-2 mt-4 mb-2 border-bottom">General Information</h3>
 
@@ -132,7 +149,8 @@
         <h3 class="pb-2 mt-4 mb-2 border-bottom">Uploads & Authorization</h3>
 
         <div class="form-group">
-            <label>Resume / List of Activities</label>
+            <label>Resume / List of Activities</label><br>
+            <small>If you don't have a resume, upload a document with a list of your activities.</small>
             <p ng-show="formData.resumeURL">
                 <a href="{{formData.resumeURL}}" >Uploaded Resume</a>
                 <button ng-click="deleteResume()">Delete</button>
@@ -145,5 +163,8 @@
             <input class="form-check-input" type="checkbox" ng-model="formData.authorization">
             <label class="form-check-label" for="defaultCheck1">I authorize that everything I have written is true.</label>
         </div>
+
+        <br>
+        <button class="btn btn-success" ng-click="showSubmissionPage()">Submit</button>
     </form>
 </div>
