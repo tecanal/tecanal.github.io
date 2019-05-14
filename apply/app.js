@@ -213,11 +213,11 @@ app.controller("ApplicationsCtrl", function ($scope, $location, $firebaseObject,
 
                 if ($scope.startedEO) {
                     $scope.eoInputsFilled = Object.keys(obj.eo).length;
-                    $scope.eoTotalInputs = 13;
+                    $scope.eoTotalInputs = 15;
                 }
                 if ($scope.startedVoCo) {
                     $scope.vocoInputsFilled = Object.keys(obj.voco).length;
-                    $scope.vocoTotalInputs = 12;
+                    $scope.vocoTotalInputs = 14;
                 }
             });
         }

@@ -39,7 +39,10 @@
 </nav>
 
 <div class="container-fluid">
-    <h1 class="page-header text-center">TeCanal Apply</h1><br>
+    <h1 class="page-header text-center mb-0">TeCanal Executive Officer Application</h1><br>
+    <p class="text-center mt-0">
+        This form auto-saves, so don't worry about data loss. If there are any problems, email <a href="mailto:rees.draminski@tecanal.org">rees.draminski@tecanal.org</a>.
+    </p>
 
     <div class="modal fade in" id="myModal">
         <div class="modal-dialog modal-lg">
@@ -146,11 +149,44 @@
             <textarea ng-model="formData.improvement" ng-model-options="{debounce: {'default': 500} }" class="form-control" name="improvement" rows="8"></textarea>
         </div>
 
+
+        <h3 class="pb-2 mt-4 mb-2 border-bottom">References</h3>
+
+        <div class="form-group">
+            <label>Reference #1 Name</label>
+            <input ng-model="formData.refOne.name" ng-model-options="{debounce: {'default': 500} }" class="form-control">
+
+            <label>Reference #1 Relationship</label>
+            <input ng-model="formData.refOne.relationship" ng-model-options="{debounce: {'default': 500} }" class="form-control">
+
+            <label>Reference #1 Email</label>
+            <input type="email" ng-model="formData.refOne.email" ng-model-options="{debounce: {'default': 500} }" class="form-control">
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label>Reference #2 Name</label>
+            <input ng-model="formData.refTwo.name" ng-model-options="{debounce: {'default': 500} }" class="form-control">
+
+            <label>Reference #2 Relationship</label>
+            <input ng-model="formData.refTwo.relationship" ng-model-options="{debounce: {'default': 500} }" class="form-control">
+            
+            <label>Reference #2 Email</label>
+            <input type="email" ng-model="formData.refTwo.email" ng-model-options="{debounce: {'default': 500} }"  class="form-control">
+        </div>
+
         <h3 class="pb-2 mt-4 mb-2 border-bottom">Uploads & Authorization</h3>
 
         <div class="form-group">
             <label>Resume / List of Activities</label><br>
-            <small>If you don't have a resume, upload a document with a list of your activities.</small>
+            <p>
+                If you don't have a resume, upload a document with a list of your activities.
+
+                For each activity, please include the name of it, a brief description of it, and the time period you were involved with
+                it (e.g. May 2015 - present).
+                
+                The resume or list of activities should be a PDF file.
+            </p>
             <p ng-show="formData.resumeURL">
                 <a href="{{formData.resumeURL}}" >Uploaded Resume</a>
                 <button ng-click="deleteResume()">Delete</button>
