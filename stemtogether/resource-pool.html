@@ -1,0 +1,165 @@
+<!doctype html>
+<html ng-app="resource-pool">
+    <head>
+        <title>STEM Resource Pool</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <style>
+            nav {border-radius: 0 !important;}
+            h3 {margin-top: 5px;}
+            .fa {font-size: 3em;}
+            .resource_list a:hover {text-decoration: none;}
+            input[type=search]::-webkit-search-cancel-button {-webkit-appearance: searchfield-cancel-button;}
+            .resource_list p {color: black;}
+            .tag_list {list-style-type: none;}
+            .tag_list {position: relative; padding: 0; margin: 0; display:inline-block;}
+            .tag_list li {margin-right: .5em;float: left;}
+            .tag_list button {border: 1px solid black; border-radius: 8px; padding: 8px; background-color: #399fe0; color: white;}
+        </style>
+      
+        <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYpIxsf0Vu0OZ09ZXD7iovMIcGs4D2nW8",
+            authDomain: "stem-library.firebaseapp.com",
+            databaseURL: "https://stem-library.firebaseio.com",
+            projectId: "stem-library",
+            storageBucket: "stem-library.appspot.com",
+            messagingSenderId: "703568651711"
+          };
+          firebase.initializeApp(config);
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+   </head>
+   
+   <body ng-controller="ResourceViewerCtrl">
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                </button>
+               <a class="navbar-brand" href="/">STEMTogether</a>
+             </div>
+             <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                   <li>
+                      <a href="index.html">Home</a>
+                   </li>
+                   <li>
+                      <a href="guides">Guides</a>
+                   </li>
+                   <li class="active">
+                       <a href="resource-pool">STEM Resource Pool</a>
+                   </li>
+                </ul>
+             </div>
+          </div>
+       </nav>
+        
+        <div class="container">
+            <h1 class="page-header">STEM Resource Pool</h1>
+            <h4>Click on any resource to start a journey of discovery and learning!</h4><br>
+            
+            <center>
+               <input type="search" ng-model="query" placeholder="Search Catalog" autofocus style="border-radius: 5px; width: 50%; height: 3em">
+                <br><br> 
+            </center>
+            
+            <ul class="resource_list" class="list-group" ng-show="showShelf">
+                <li class="list-group-item" ng-repeat="item in resources">
+                    <h4><a href="{{item.resource_link}}">{{item.resource_name}}</a></h4>
+                    <p>{{item.resource_description}}</p>
+                   
+                    <b>Tags:</b><br>
+                    <ul class="tag_list" ng-repeat="tag in item.tags">
+                        <li style="display: inline-block;"><button ng-click="searchTag(tag)">{{tag}}</button></li> 
+                    </ul>
+                </li>
+            </ul>
+            
+            <ul class="resource_list" class="list-group" ng-hide="showShelf">
+                <li class="list-group-item" ng-repeat="item in results">
+                    <h4><a href="{{item.resource_link}}">{{item.resource_name}}</a></h4>
+                    <p>{{item.resource_description}}</p>
+                   
+                    <ul class="tag_list" ng-repeat="tag in item.tags">
+                        <li><button ng-click="searchTag(tag)">{{tag}}</button></li> 
+                    </ul>
+                </li>
+            </ul>
+   </div>
+    
+    <!-- Bootstrap Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        /* global angular, firebase */
+    
+        // Create Angular App Module
+        var app = angular.module('resource-pool', ["firebase"]);
+        
+        // Fisher-Yates Shuffle Algorithm
+        function shuffle(a) {
+            var j, x, i;
+            
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            
+            return a;
+        }
+            
+        app.controller("ResourceViewerCtrl", function($scope, $window, $firebaseArray) {
+            // Connect to the resources database
+            var ref = firebase.database().ref().child("resources");
+            $scope.resources = $firebaseArray(ref);
+            
+            // When the resources array is populated, shuffle the order
+            $scope.resources.$loaded(function() {
+               $scope.resources = shuffle($scope.resources); 
+            });
+            
+            // Listen to changes in the search box
+            $scope.$watch('query', function() {
+                // If the search box is empty
+                if ($scope.query == "" || $scope.query == undefined) 
+                    $scope.showShelf = true;
+                // If there's something in the search box
+                else {
+                    $scope.showShelf = false;
+                    $scope.results = [];
+                        
+                    // Look through every single resource to see if there's a search match
+                    $scope.resources.forEach(function(data) {
+                        for (var prop in data) {
+                            if (prop.indexOf("$") == -1) {
+                                var test = data[prop] + "";
+                                var query = $scope.query;
+                                    
+                                if (test.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+                                    $scope.results.push(data);
+                                    break;
+                                }
+                            }
+                        }
+                    }); 
+                }
+            });
+            
+            $scope.searchTag = function(tag) {
+                $scope.query = tag;
+            };
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="resource-pool">
+    <head>
+        <title>Resource Pool Manager</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+        <script>
+         /* global firebase */
+         
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyBYpIxsf0Vu0OZ09ZXD7iovMIcGs4D2nW8",
+            authDomain: "stem-library.firebaseapp.com",
+            databaseURL: "https://stem-library.firebaseio.com",
+            projectId: "stem-library",
+            storageBucket: "stem-library.appspot.com",
+            messagingSenderId: "703568651711"
+          };
+          firebase.initializeApp(config);
+        </script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    </head>
+
+    <body ng-controller="ResourceManagerCtrl">
+        <div class="container">
+            <h1 style="text-align: center">STEM Resource Pool Manager</h1>
+            
+             <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse1">Edit Existing Resource</a>
+                        </h4>
+                    </div>
+                    
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="item in resources | limitTo: 5 : start" ng-click="editResource($index)">{{item.resource_name}}</li>
+                            </ul>
+                            
+                            <ul class="pagination" style="margin-top: 0px">
+                                <li ng-repeat="num in pages" ng-click="changePage($index)" ng-class="{'active' : page == $index}"><a href="#">{{num}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form ng-submit="addResource()">
+                <h3>Add Resource</h3>
+                
+      
+                <div class="input-group">
+                    <label>Resource Name</label>
+                    <input class="form-control" type="text" ng-model="resource_name" name="resource_name"/>
+                </div>
+                        
+                        <div class="input-group">
+                            <label>Resource Link</label>
+                            <input class="form-control" type="url" ng-model="resource_link" name="resource_link"/>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Resource Description</label>
+                            <textarea class="form-control" ng-model="resource_description" name="resource_description"></textarea>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Tags</label>
+                            <textarea class="form-control" ng-model="tags_list" name="tags_list"></textarea>
+                        </div>
+                </div>
+                
+                <center>
+                    <br>
+                    <a class="btn btn-danger" ng-click="clear()" href="#">Clear Form</a>
+                    <input class="btn btn-success" type="submit" ng-click="addResource()" value="Add Resource">
+                </center>
+            </form>
+        </div>
+                
+        <!-- Bootstrap Scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>        <script>
+            /* global angular, firebase */
+            
+            // Create Angular App Module
+            var app = angular.module('resource-pool', ["firebase"]);
+            
+            app.controller("ResourceManagerCtrl", function($scope, $window, $firebaseArray) {
+                // Connect to the database
+                var ref = firebase.database().ref().child("resources");
+                $scope.resources = $firebaseArray(ref);
+                
+                // The start index in the resource array for list pagination
+                $scope.start = 0;
+                // The list page number 
+                $scope.page = 0;
+                // The page numbers for the paging button
+                $scope.pages = [];
+                // The index of the resource, if any, that is being edited
+                $scope.currentResource = -1;
+                
+                // When the resources array is populated
+                $scope.resources.$loaded(function() {
+                    $scope.pages = [];
+                   
+                    // Calculate how many pages are needed
+                    var len = Math.ceil($scope.resources.length / 5);
+                
+                    // Push the page numbers into the pages array
+                    for (var i = 1; i <= len; i++)
+                        $scope.pages.push(i);
+                });
+                
+                $scope.addResource = function() {
+                    // If the resource is new
+                    if ($scope.currentResource == -1) {
+                        var tags = $scope.tags_list.split(",");
+        
+                        // Clean off extra whitespace between tags in list
+                        for (var i = 0; i < tags.length; i++)
+                            tags[i] = tags[i].trim();
+                        
+                        // Add the new resource
+                        $scope.resources.$add({
+                            "resource_name": $scope.resource_name,
+                            "resource_link": $scope.resource_link,
+                            "resource_description": $scope.resource_description,
+                            "tags": tags
+                        })
+                        .then(function() {
+                            // Show succcess message
+                            alert($scope.resource_name + " was submitted to the catalog successfully.");
+                            
+                            $scope.clear();
+                        });
+                       
+                    }
+                    // If the resource already exists
+                    else {
+                        // Get the selected resource
+                        var resource = $scope.resources[$scope.currentResource];
+                        
+                        // Get the form data
+                        resource.resource_name = $scope.resource_name;
+                        resource.resource_link = $scope.resource_link;
+                        resource.resource_description = $scope.resource_description;
+                        
+                        // Clean off extra whitespace between tags in list
+                        var tags = $scope.tags_list.split(",");
+                        for (var i = 0; i < tags.length; i++)
+                            tags[i] = tags[i].trim();
+                        
+                        resource.tags = tags;
+                        
+                        // Update the existing resource entry
+                        $scope.resources.$save(resource)
+                        .then(function() {
+                            // Show success message
+                            alert($scope.resource_name + " was successfully updated.");
+                            
+                            $scope.clear();
+                        });
+                    }
+                };
+                
+                $scope.clear = function() {
+                    $scope.currentResource = -1;
+                    
+                    $scope.resource_name = "";
+                    $scope.resource_link = "";
+                    $scope.resource_description = "";
+                    $scope.tags_list = "";
+                };
+                
+                $scope.editResource = function(index) {
+                    var resource = $scope.resources[index];
+                    
+                    $scope.currentResource = index;
+                    
+                    // Set the form to data already in the database
+                    $scope.resource_name = resource.resource_name;
+                    $scope.resource_link = resource.resource_link;
+                    $scope.resource_description = resource.resource_description;
+                    $scope.tags_list = resource.tags.join(", ");
+                };
+                
+                $scope.changePage = function(page) {
+                    $scope.page = page;
+                    
+                    // Set the list index start to be a multiple of 5 multiplied with the page number
+                    $scope.start = 5 * page;
+                };
+            });
+        </script>
+    </body>
+</html>
