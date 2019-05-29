@@ -1,0 +1,58 @@
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#/">TeCanal Volunteer Portal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Getting Started</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/outreach-signup">Outreach Signup</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron mb-3" style="background-color: #3954AE; border-radius: 0px;">
+    <h1 class="text-center text-white">Outreach Signup</h1>
+</div>
+
+<div class="container-fluid">
+    <p class="text-right">
+        <a class="btn btn-success" href="#/driver-registration">Driver Registration</a>
+    </p>
+
+    <h1 class="text-center" ng-show="cars.length == 0">No Cars Registered</h1>
+
+    <div class="jumbotron" ng-repeat="item in cars | orderBy: 'sessionDate'">
+        <b>Driver: </b>{{item.driver}}<br>
+        <b>Origin: </b>{{item.startingPoint}}<br>
+        <b>Destination: </b>{{item.destination}}<br>
+        <b>Email: </b>{{item.email}}<br>
+        <b>Phone: </b>{{item.phoneNumber | tel}}<br>
+        <b>Date: </b>{{item.sessionDate}}<br>
+    
+        <b>Riders: </b><br>
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar"
+                aria-valuenow="{{item.numRiders/item.maxRiders * 100}}" aria-valuemin="0" aria-valuemax="100"
+                style="width: {{item.numRiders/item.maxRiders * 100}}%">
+                <b>{{item.numRiders}} / {{item.maxRiders}}</b>
+            </div>
+        </div>
+    
+        <b>People In Car:</b>
+        <span style="display: inline">
+            {{item.names.join(', ')}}
+        </span><br>
+    
+        <p style="text-align: right">
+            <button class="btn btn-primary" data-ng-click="addRider(cars.indexOf(item))">Join Car</button>
+            <button class="btn btn-danger" data-ng-click="removeRider(cars.indexOf(item))">Remove Me</button>
+        </p>
+    </div>
+</div>
