@@ -1,0 +1,49 @@
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#/">TeCanal Volunteer Portal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Getting Started</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/leaderboard">Leaderboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/outreach-signup">Outreach Signup</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron" style="background-color: #3954AE; border-radius: 0px;">
+    <h1 class="text-center text-white">Volunteering Leaderboard</h1>
+</div>
+
+<div class="container-fluid">    
+    <p>
+        Every time you volunteer is worth two hours, everytime you drive, its three hours.
+    </p>
+
+    <div class="card" ng-repeat="volunteer in hours | orderBy: -totalHours track by $index">
+        <div class="card-header">
+            <a class="collapsed card-link" target="_self" data-toggle="collapse" href="#collapse{{$index}}">
+                <h4>{{$index + 1}}. {{volunteer.$id.replace("-", " ")}} (Hours: {{volunteer.totalHours}})</h4>
+            </a>
+        </div>
+
+        <div id="collapse{{$index}}" class="collapse">
+            <div class="card-body">
+                <ul>
+                    <li ng-repeat="session in volunteer.history">
+                        {{session.location}} on {{session.date}} as a {{session.role}}.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,10 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             templateUrl: "templates/admin.html",
             controller: 'AdminCtrl'
         })
+        .when("/leaderboard", {
+            templateUrl: "templates/leaderboard.html",
+            controller: 'LeaderboardCtrl'
+        })
         .when("/outreach-signup", {
             templateUrl: "templates/outreach-signup.html",
             controller: 'OutreachSignupCtrl'
@@ -26,19 +30,21 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
         });
 }]);
 
+app.controller("LeaderboardCtrl", function ($scope, $firebaseArray) {
+    // Connect to hours of database
+    var hoursRef = firebase.database().ref().child("hours");
+    $scope.hours = $firebaseArray(hoursRef);
+});
+
 /**
  * Handle the Outreach Signup page.
  */
-app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray) {
+app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebaseObject) {
     $scope.noCars = false;
 
     // Connect to cars database
     var carsRef = firebase.database().ref().child("cars");
     $scope.cars = $firebaseArray(carsRef);
-
-    // Connect to hours of database
-    var hoursRef = firebase.database().ref().child("hours");
-    $scope.hours = $firebaseArray(hoursRef);
 
     /**
      * Add a new rider to the car.
@@ -50,11 +56,10 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray) {
         if (currentCar.numRiders != currentCar.maxRiders) {
             // Get persons name to add to car
             var name = prompt("What is your name?");
-            var number = prompt("What is your number?");
 
-            if (name != null && name !== "") {
+            if (name) {
                 // Add rider name to car
-                currentCar.names.push((name + "(" + number + ")").trim());
+                currentCar.names.push(name.trim());
 
                 // Add rider to the car
                 currentCar.numRiders++;
@@ -123,15 +128,29 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray) {
 
                 // Select section of databse for driver
                 hoursRef = firebase.database().ref().child("hours/" + driverName);
-                $scope.hours = $firebaseArray(hoursRef);
+                $scope.hours = $firebaseObject(hoursRef);
 
                 // Add hours as driver
-                $scope.hours.$add({
-                    "date": car.sessionDate,
-                    "location": car.destination,
-                    "role": "Driver",
-                    "hours": 3
-                });
+                if ($scope.hours.history) {
+                    $scope.hours.totalHours += 3;
+                    
+                    $scope.hours.history.push({
+                        "date": car.sessionDate,
+                        "location": car.destination,
+                        "role": "Driver",
+                        "hours": 3
+                    });
+                }
+                else {
+                    $scope.hours.totalHours = 3;
+
+                    $scope.hours.history = [{
+                        "date": car.sessionDate,
+                        "location": car.destination,
+                        "role": "Driver",
+                        "hours": 3
+                    }];
+                }
 
                 // For each rider in car
                 var names = car.names;
@@ -145,15 +164,33 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray) {
                         if (driverName != name) {
                             // Select section of databse for volunteer
                             hoursRef = firebase.database().ref().child("hours/" + name);
-                            $scope.hours = $firebaseArray(hoursRef);
+                            $scope.hours = $firebaseObject(hoursRef);
 
-                            // Add hours as volunteer
-                            $scope.hours.$add({
-                                "date": car.sessionDate,
-                                "location": car.destination,
-                                "role": "Volunteer",
-                                "hours": 2
-                            });
+                            $scope.hoursObj = $firebaseObject(hoursRef);
+
+                            if ($scope.hours.history.length) {
+                                $scope.hours.totalHours += 2;
+                                
+                                // Add hours as volunteer
+                                $scope.hours.history.push({
+                                    "date": car.sessionDate,
+                                    "location": car.destination,
+                                    "role": "Volunteer",
+                                    "hours": 2
+                                });
+                            }
+                            else {
+                                $scope.hours.totalHours = 2;
+
+                                $scope.hours.history = [{
+                                    "date": car.sessionDate,
+                                    "location": car.destination,
+                                    "role": "Volunteer",
+                                    "hours": 2
+                                }];
+                            }
+
+                            $scope.hours.$save();
                         }
                     }
                 }
