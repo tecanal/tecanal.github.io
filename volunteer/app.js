@@ -1,4 +1,5 @@
 var app = angular.module("car-reserve", ["firebase", "ngRoute"]);
+
 /**
  * Handle application routing so that it is all in one page.
  */
@@ -7,21 +8,31 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
 
     $routeProvider
         .when("/", {
-            templateUrl: "templates/home.html"
+            title: "Volunteer @ TeCanal",
+            templateUrl: "templates/home.html",
+            controller: 'HomeCtrl'
         })
         .when("/admin", {
+            title: "Volunteer Portal Admin Panel",
             templateUrl: "templates/admin.html",
             controller: 'AdminCtrl'
         })
+        .when("/why-volunteer", {
+            title: "Why Volunteer?",
+            templateUrl: "templates/why-volunteer.html"
+        })
         .when("/leaderboard", {
+            title: "Volunteer Hours Leaderboard",
             templateUrl: "templates/leaderboard.html",
             controller: 'LeaderboardCtrl'
         })
         .when("/outreach-signup", {
+            title: "TeCanal Outreach Signup",
             templateUrl: "templates/outreach-signup.html",
             controller: 'OutreachSignupCtrl'
         })
         .when("/driver-registration", {
+            title: "Driver Registration",
             templateUrl: "templates/driver-registration.html",
             controller: 'DriverRegistrationCtrl'
         })
@@ -30,8 +41,66 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
         });
 }]);
 
+/**
+ * Display the title based on whatever route it's on.
+ */
+app.run(['$rootScope', function ($rootScope) {
+    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+        $rootScope.title = current.$$route.title;
+    });
+}]);
+
+app.controller("HomeCtrl", function ($scope) {
+    var TECANAL_WAIVER = {
+        name: "TeCanal General Waiver",
+        link: "http://res.cloudinary.com/tecanal/raw/upload/v1491913627/TeCanalWaiverOriginal_wwmsfr.pdf"
+    };
+
+    $scope.outreaches = [
+        {
+            name: "Mattie B. Uzzle Outreach Center",
+            time: "Fridays; 4:00pm-5:00pm",
+            address: "1212 N Chester St. Baltimore, MD",
+            link: "https://www.google.com/maps/place/Mattie+B.+Uzzle+Outreach+Center/@39.3049494,-76.5903036,17z/data=!3m1!4b1!4m5!3m4!1s0x89c8046759570a2b:0xa1854f4e1c094c82!8m2!3d39.3049494!4d-76.5881149",
+            waivers: [
+                TECANAL_WAIVER,
+                {
+                    name: "Mattie B. Uzzle Waiver",
+                    link: "http://res.cloudinary.com/tecanal/raw/upload/v1491913627/MattieB.UzzleProceduresPolicies_ahmivp.pdf"
+                }
+            ]
+        },
+        {
+            name: "Immigration Outreach Service Center",
+            time: "Saturdays; 3:00pm-4:00pm",
+            address: "5302 Harford Rd. Baltimore, MD",
+            link: "https://www.google.com/maps/place/Immigration+Outreach+Service+Center/@39.355745,-76.5913927,17z/data=!3m1!4b1!4m5!3m4!1s0x89c80584b27abda9:0x8311976ca1c552bd!8m2!3d39.355745!4d-76.589204",
+            waivers: [
+                TECANAL_WAIVER,
+                {
+                    name: "Baltimore Archdiocese Application",
+                    link: "http://res.cloudinary.com/tecanal/raw/upload/v1516559382/ArchdioceseApp_oynsvp.pdf"
+                },
+                {
+                    name: "IOSC Volunteer Application",
+                    link: "http://res.cloudinary.com/tecanal/raw/upload/v1516559207/IOSCApp_h9ggxl.pdf"
+                }
+            ]
+        },
+        {
+            name: "Tench Tilghman Elementary School",
+            time: "Tuesdays, Thursdays; 3:30pm-5:00pm",
+            address: "600 N Patterson Park Ave Baltimore, MD",
+            link: "https://www.google.com/maps/place/Tench+Tilghman+Elementary%2FMiddle+School/@39.2977925,-76.5874221,17z/data=!3m1!4b1!4m5!3m4!1s0x89c80465a31ad6e3:0xb83c2537577e235f!8m2!3d39.2977925!4d-76.5852334",
+            waivers: [
+                TECANAL_WAIVER
+            ]
+        }
+    ];
+});
+
 app.controller("LeaderboardCtrl", function ($scope, $firebaseArray) {
-    // Connect to hours of database
+    // Connect to hours database
     var hoursRef = firebase.database().ref().child("hours");
     $scope.hours = $firebaseArray(hoursRef);
 });
