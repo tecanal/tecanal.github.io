@@ -239,9 +239,7 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
                             hoursRef = firebase.database().ref().child("hours/" + name);
                             $scope.hours = $firebaseObject(hoursRef);
 
-                            $scope.hoursObj = $firebaseObject(hoursRef);
-
-                            if ($scope.hours.history.length) {
+                            if ($scope.hours.history) {
                                 $scope.hours.totalHours += 2;
                                 
                                 // Add hours as volunteer
@@ -274,10 +272,6 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
 
                 // Update $scope.cars array
                 $scope.cars = $firebaseArray(carsRef);
-
-                // Update $scope.hours array
-                hoursRef = firebase.database().ref().child("hours");
-                $scope.hours = $firebaseArray(hoursRef);
             }
         });
     });
