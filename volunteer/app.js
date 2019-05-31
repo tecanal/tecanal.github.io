@@ -21,6 +21,10 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             title: "Why Volunteer?",
             templateUrl: "templates/why-volunteer.html"
         })
+        .when("/training-material", {
+            title: "Training Material",
+            templateUrl: "templates/training-material.html"
+        })
         .when("/leaderboard", {
             title: "Volunteer Hours Leaderboard",
             templateUrl: "templates/leaderboard.html",
