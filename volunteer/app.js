@@ -155,7 +155,6 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
         for (var i = 0; i < currentCar.names.length; i++) {
             // Prevent deletion of driver
             if (name === currentCar.driver) {
-                console.log("Equal");
                 carsRef.child(currentCar.key).remove();
 
                 // Exit name checking
@@ -193,14 +192,13 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
 
             // See if outreach session has already passed
             if (today.isAfter(sessionDate) && today != sessionDate) {
-                // Get the car and names of people riding in it
-                var car = child.val();
-                var names = car.names;
+                // Get names of people riding in car
+                var names = entry.names;
 
                 // If the car had people riding in it
                 if (names) {
                     // Make name into ref friendly format
-                    var driverName = car.driver;
+                    var driverName = entry.driver;
                     driverName.replace(" ", "-");
 
                     // Select section of databse for driver
@@ -212,8 +210,8 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
                         $scope.driverHours.totalHours += 3;
 
                         $scope.driverHours.history.push({
-                            "date": car.sessionDate,
-                            "location": car.destination,
+                            "date": entry.sessionDate,
+                            "location": entry.destination,
                             "role": "Driver",
                             "hours": 3
                         });
@@ -223,8 +221,8 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
                         $scope.driverHours.totalHours = 3;
 
                         $scope.driverHours.history = [{
-                            "date": car.sessionDate,
-                            "location": car.destination,
+                            "date": entry.sessionDate,
+                            "location": entry.destination,
                             "role": "Driver",
                             "hours": 3
                         }];
@@ -248,8 +246,8 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
 
                                 // Add hours as volunteer
                                 $scope.volunteerHours.history.push({
-                                    "date": car.sessionDate,
-                                    "location": car.destination,
+                                    "date": entry.sessionDate,
+                                    "location": entry.destination,
                                     "role": "Volunteer",
                                     "hours": 2
                                 });
@@ -259,8 +257,8 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
                                 $scope.volunteerHours.totalHours = 2;
 
                                 $scope.volunteerHours.history = [{
-                                    "date": car.sessionDate,
-                                    "location": car.destination,
+                                    "date": entry.sessionDate,
+                                    "location": entry.destination,
                                     "role": "Volunteer",
                                     "hours": 2
                                 }];

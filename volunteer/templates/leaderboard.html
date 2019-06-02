@@ -35,7 +35,7 @@
         Every time you volunteer is worth two hours, everytime you drive, its three hours.
     </p>
 
-    <div class="card" ng-repeat="volunteer in hours | orderBy: -totalHours track by $index">
+    <div class="card" ng-repeat="volunteer in hours | orderBy: '-totalHours' track by $index">
         <div class="card-header">
             <a class="collapsed card-link" target="_self" data-toggle="collapse" href="#collapse{{$index}}">
                 <h4>{{$index + 1}}. {{volunteer.$id.replace("-", " ")}} (Hours: {{volunteer.totalHours}})</h4>

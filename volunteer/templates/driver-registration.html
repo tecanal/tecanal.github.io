@@ -33,7 +33,7 @@
 <div class="container">
     <form ng-submit="addCar()" autocomplete="on">
         <fieldset class="form-group">
-            <label>Outreach Center</label>
+            <label class="font-weight-bold">Outreach Center</label>
 
             <div class="form-check">
                 <label class="form-check-label">
@@ -64,33 +64,33 @@
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Starting Point</label>
+            <label class="font-weight-bold">Starting Point</label>
             <input class="form-control" name="name" ng-model="startingPoint" placeholder="Mt. Hebron High School"
                 required />
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Your Full Name</label>
+            <label class="font-weight-bold">Your Full Name</label>
             <input class="form-control" name="name" ng-model="driverText" placeholder="John Smith" required />
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Maximum Number of Riders (Including You)</label>
+            <label class="font-weight-bold">Maximum Number of Riders (Including You)</label>
             <input class="form-control" type="number" min="1" ng-model="maxRidersText" required />
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Phone Number</label>
+            <label class="font-weight-bold">Phone Number</label>
             <input class="form-control" type="number" min="1" ng-model="phoneNumberText" required />
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Email</label>
+            <label class="font-weight-bold">Email</label>
             <input class="form-control" type="name" ng-model="emailText" required />
         </fieldset>
 
         <fieldset class="form-group">
-            <label>Session Date</label>
+            <label class="font-weight-bold">Session Date</label>
             <div class="input-group">
                 <select class="form-control" name="date" ng-model="sessionDate" required>
                     <option value="" style="display: none"></option>
@@ -99,6 +99,6 @@
             </div>
         </fieldset>
 
-        <button type="submit" class="btn btn-success">Add Car</button>
+        <button type="submit" class="btn btn-success">Register Car</button>
     </form>
 </div>
