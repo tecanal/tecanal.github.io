@@ -1,0 +1,43 @@
+<html ng-app="car-reserve">
+    <head>
+        <title ng-bind="title"></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <link rel="shortcut icon" href="../favicon.ico">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+        <!-- Firebase Imports -->
+        <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyBS0oCcgGUO51WPd2AE-gJY74J3A0UQHUY",
+                authDomain: "car-reserve-68af7.firebaseapp.com",
+                databaseURL: "https://car-reserve-68af7.firebaseio.com",
+                storageBucket: "car-reserve-68af7.appspot.com",
+            };
+            firebase.initializeApp(config);
+        </script>
+
+        <!-- Moment.js (Date Handling) Script -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+
+        <!-- Bootstrap (Styling + Animations) Scripts -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+        <!-- Angular (MVC) App Scripts -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+        <!-- All of our custom code -->
+        <script src="app.js"></script>
+    </head>
+
+    <body>
+        <div ng-view></div>
+    </body>
+</html>

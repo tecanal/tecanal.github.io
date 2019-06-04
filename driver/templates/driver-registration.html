@@ -1,0 +1,101 @@
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#/">TeCanal Driver Portal</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/driver-reimbursement">Driver Reimbursement</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/support-material">Support Material</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#/outreach-signup">Outreach Signup</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron" style="background-color: #3954AE; border-radius: 0px;">
+    <h1 class="text-center text-white">Driver Registration</h1>
+</div>
+
+<div class="container">
+    <form ng-submit="addCar()" autocomplete="on">
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Outreach Center</label>
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="outreach" ng-model="destination.name" ng-change="getDates()" value="Mattie B. Uzzle Outreach Center">Mattie B. Uzzle Outreach Center
+                </label>
+            </div>
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="outreach" ng-model="destination.name"
+                        ng-change="getDates()" value="Immigration Outreach Service Center">Immigration Outreach Service Center
+                </label>
+            </div>
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="outreach" ng-model="destination.name"
+                        ng-change="getDates()" value="Tench Tilghman">Tench Tilghman
+                </label>
+            </div>
+
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="outreach" ng-model="destination.name"
+                        ng-change="getDates()" value="EK2K">EK2K
+                </label>
+            </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Starting Point</label>
+            <input class="form-control" name="name" ng-model="startingPoint" placeholder="Mt. Hebron High School"
+                required />
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Your Full Name</label>
+            <input class="form-control" name="name" ng-model="driverText" placeholder="John Smith" required />
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Maximum Number of Riders (Including You)</label>
+            <input class="form-control" type="number" min="1" ng-model="maxRidersText" required />
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Phone Number</label>
+            <input class="form-control" type="number" min="1" ng-model="phoneNumberText" required />
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Email</label>
+            <input class="form-control" type="name" ng-model="emailText" required />
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bold">Session Date</label>
+            <div class="input-group">
+                <select class="form-control" name="date" ng-model="sessionDate" required>
+                    <option value="" style="display: none"></option>
+                    <option ng-repeat="date in dates" value="{{date.value}}">{{date.long_date}}</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-success">Register Car</button>
+    </form>
+</div>

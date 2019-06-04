@@ -36,10 +36,6 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             templateUrl: "templates/eo-info.html",
             controller: 'InfoPageCtrl'
         })
-        .when("/voco", {
-            templateUrl: "templates/voco-info.html",
-            controller: 'InfoPageCtrl'
-        })
         .when("/applications", {
             templateUrl: "templates/applications.html",
             controller: 'ApplicationsCtrl'
@@ -47,10 +43,6 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
         .when("/application/eo", {
             templateUrl: "templates/eo-application.html",
             controller: 'EOApplicationCtrl'
-        })
-        .when("/application/voco", {
-            templateUrl: "templates/voco-application.html",
-            controller: 'VoCoApplicationCtrl'
         })
         .otherwise({
             redirectTo: "/"
@@ -209,15 +201,10 @@ app.controller("ApplicationsCtrl", function ($scope, $location, $firebaseObject,
              */
             obj.$loaded(function() {
                 $scope.startedEO = obj.eo;
-                $scope.startedVoCo = obj.voco;
 
                 if ($scope.startedEO) {
                     $scope.eoInputsFilled = Object.keys(obj.eo).length;
                     $scope.eoTotalInputs = 15;
-                }
-                if ($scope.startedVoCo) {
-                    $scope.vocoInputsFilled = Object.keys(obj.voco).length;
-                    $scope.vocoTotalInputs = 14;
                 }
             });
         }
@@ -408,122 +395,6 @@ app.controller("EOApplicationCtrl", function ($scope, $location, $firebaseObject
      * Show information about applications after the user has submitted theirs.
      */
     $scope.showSubmissionPage = function() {
-        $("#myModal").modal('show');
-    };
-
-    /**
-     * Logs the user out of the application view and go back to home.
-     */
-    $scope.logout = function() {
-        // Sign out of Firebase
-        $scope.auth.$signOut();
-    };
-});
-
-/**
- * Handle the VoCo application page logic.
- */
-app.controller("VoCoApplicationCtrl", function($scope, $location, $firebaseObject, $firebaseStorage, Auth) {
-    // Scope variables for auth and form save
-    $scope.auth = Auth;
-    $scope.user = "";
-    $scope.unbindObject = "";
-    $scope.formData = {};
-
-    // Scope variables for resume and file handing 
-    $scope.hasResume = false;
-    $scope.resumeURL = "";
-
-    // If the application type is being changed and there is a previously bound object, unbind
-    if ($scope.unbindObject) $scope.unbindObject();
-
-    /**
-     * Wait for the user to be defined to connect to the database.
-     */
-    $scope.$watch("user", function() {
-        if ($scope.user) {
-            // Connect to the database portion for the user
-            var userRef = firebase.database().ref().child($scope.user.uid + "/voco");
-            var obj = $firebaseObject(userRef);
-
-            // Bind the database user reference to the form inputs to autosave
-            obj.$bindTo($scope, "formData", function (unbind) {
-                $scope.unbindObject = unbind;
-            });
-        }
-    });
-    
-    /**
-     * Handle resume uploading to Firebase.
-     */
-    $scope.$watch('resume', function() {
-        // If the resume file is defined
-        if ($scope.resume) {
-            // Check if the user has already uploaded a resume
-            if ($scope.formData.resumeURL) {
-
-                // Create a storage connection for resume file
-                var storageRef = firebase.storage().ref().child("resumes/" + $scope.user.uid + "/" + $scope.formData.resumeName);
-                $scope.storage = $firebaseStorage(storageRef);
-
-                // Delete the old resume
-                $scope.storage.$delete().then(function() {
-                    var storageRef = firebase.storage().ref().child("resumes/" + $scope.user.uid + "/" + $scope.resume.name);
-                    $scope.storage = $firebaseStorage(storageRef);
-
-                    // When the file is done uploading, store the download URL
-                    var uploadTask = $scope.storage.$put($scope.resume);
-                    uploadTask.$complete(function(snapshot) {
-                        $scope.formData.resumeURL = snapshot.downloadURL;
-                    });
-                });
-            }
-            else {
-                // Create a storage connection for resume file
-                var storageRef = firebase.storage().ref().child("resumes/" + $scope.user.uid + "/" + $scope.resume.name);
-                $scope.storage = $firebaseStorage(storageRef);
-                
-                // When the file is done uploading, store the download URL
-                var uploadTask = $scope.storage.$put($scope.resume);
-                uploadTask.$complete(function(snapshot) {
-                    $scope.formData.resumeName = $scope.resume.name;
-                    $scope.formData.resumeURL = snapshot.downloadURL;
-                });
-            }
-        }
-    });
-
-    /**
-     * Listens for auth state and sets user variable to it.
-     */
-    $scope.auth.$onAuthStateChanged(function(firebaseUser) {
-        // Save the user object to scope if session has a login
-        if (firebaseUser) 
-            $scope.user = firebaseUser;
-        // Redirect to login page if not authenticated
-        else 
-            $location.path("login");
-    });
-
-    /**
-     * Allows the user to delete their uploaded resume without having to replace it with something else.
-     */
-    $scope.deleteResume = function() {
-        var storageRef = firebase.storage().ref().child("resumes/" + $scope.user.uid + "/" + $scope.formData.resumeName);
-        $scope.storage = $firebaseStorage(storageRef);
-
-        // Delete the resume from Firebase
-        $scope.storage.$delete().then(function() {
-            // Delete old resume info
-            $scope.formData.resumeURL = "";
-            $scope.formData.resumeName = "";
-        });
-    };
-
-    /**
-     * Show information about applications after the user has submitted theirs.
-     */
-    $scope.showSubmissionPage = function () {
         $("#myModal").modal('show');
     };
 
