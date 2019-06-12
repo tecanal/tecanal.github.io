@@ -127,16 +127,45 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
 
         // Checks if maximum amount of riders has been reached
         if (currentCar.numRiders != currentCar.maxRiders) {
-            // Get persons name to add to car
-            var name = prompt("What is your name?");
+            var name;
+            var isValidName = false;
 
-            if (name) {
-                // Add rider name to car
-                currentCar.names.push(name.trim());
+            // Validate the name so it is first and last name with no symbols
+            while (!isValidName) {
+                // Get name from user
+                name = prompt("What is your name?");
 
-                // Add rider to the car
-                currentCar.numRiders++;
+                var errorMsg = "";
+                isValidName = true;
+
+                // Go through every single character and check if it is a letter
+                for (var char of name) {
+                    if (".!@#$%^&*[]{}()_+=/><\\".indexOf(char) != -1) {
+                        isValidName = false;
+                        errorMsg += "No symbols allowed.\n";
+
+                        break;
+                    }
+                }
+
+                // Trim extra whitespace off of name
+                name = name.trim();
+
+                // Check if there is a space delineating first and last name
+                if (name.indexOf(" ") == -1) {
+                    isValidName = false;
+                    errorMsg += "Please enter first and last name.\n";
+                }
+
+                // Alert what problem(s) there was with the name 
+                if (!isValidName) alert(errorMsg);
             }
+            
+            // Add rider name to car
+            currentCar.names.push(name);
+
+            // Add rider to the car
+            currentCar.numRiders++;
 
             // Update the database
             $scope.cars.$save(currentCar);
@@ -146,7 +175,7 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
     /**
      * Remove a rider from the car.
      */
-    $scope.removeRider = function (carNum) {
+    $scope.removeRider = function(carNum) {
         var currentCar = $scope.cars[carNum];
 
         var name = prompt("What is your name?");
