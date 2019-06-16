@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="#/">TeCanal Volunteer Admin</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = ''"
+                    ng-class="{'active': !viewType}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = 'removeCar'"
+                    ng-class="{'active': viewType == 'removeCar'}">Remove Car</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" ng-click="viewType = 'hoursEditing'"
+                    ng-class="{'active': viewType == 'hoursEditing'}">Edit Volunteer Hours History</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" ng-click="logout()" href="javascript:void(0)">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-show="!viewType">
+    <p>Remove Car allows you to remove a car that may have been mistakenly added by a driver.</p>
+    <p>Edit Volunteer Hours allows you remove outreach sessions that the volunteer did not actually attend, or delete accidental duplicates.</p>
+</div>
+
+<div class="container-fluid" ng-show="viewType == 'removeCar'">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="car in cars track by $index">
+            <button class="btn btn-danger" ng-click="deleteCar($index)">Delete</button>
+            <p>
+                {{car.driver}}
+            </p>
+            <p>
+                {{car.destination}}
+            </p>
+            <p>
+                {{car.names}}
+            </p>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid" ng-show="viewType == 'hoursEditing'">
+    <div ng-repeat="person in people">
+        <b>{{person.$id}}</b>
+
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="entry in person.history track by $index">
+                {{$index + 1}}. {{entry.location}} on {{entry.date}} as a {{entry.role}}.
+                <button class="btn btn-danger" ng-click="deleteHistoryEntry(person.$id, $index)">X</button>
+            </li>
+        </ul>
+    </div>
+</div>

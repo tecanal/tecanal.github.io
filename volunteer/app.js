@@ -324,7 +324,7 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
     $scope.cars = $firebaseArray(carsRef);
 
     // Adds a new car to the database with all the form data from Driver Registration page
-    $scope.addCar = function () {
+    $scope.addCar = function() {
         // Add data to the database
         $scope.cars.$add({
             destination: $scope.destination.name,
@@ -409,11 +409,46 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
     };
 });
 
-/**
- * Handle the admin page.
- */
-app.controller("AdminCtrl", function ($scope, $location, $firebaseArray) {
+app.controller("AdminCtrl", function ($scope, $firebaseObject, $firebaseArray) {
+    $scope.viewType = "";
 
+    // Connect to cars database
+    var carsRef = firebase.database().ref().child("cars");
+    $scope.cars = $firebaseArray(carsRef);
+
+    // Connect to hours database
+    var hoursRef = firebase.database().ref().child("hours");
+    $scope.people = $firebaseArray(hoursRef);
+
+    /**
+     * Deletes the car from the database.
+     */
+    $scope.deleteCar = function(index) {
+        $scope.cars.$remove(index);
+    };
+
+    /**
+     * Deletes an outreach entry in the volunteer's history and removes it from the
+     * total hours count.
+     */
+    $scope.deleteHistoryEntry = function(name, index) {
+        var volunteerRef = firebase.database().ref().child("hours/" + name);
+        var volunteer = $firebaseObject(volunteerRef);
+
+        volunteer.$loaded(function () {
+            // Remove hours from total hours count
+            if (volunteer.history[index].role == "Driver")
+                volunteer.totalHours -= 3;
+            else
+                volunteer.totalHours -= 2;
+
+            // Remove the history entry
+            volunteer.history.splice(index, 1);
+
+            // Save the object which will live update the interface
+            volunteer.$save();
+        });
+    };
 });
 
 /**
