@@ -5,58 +5,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="lib/codemirror.css">
     <link rel="stylesheet" href="addon/hint/show-hint.css">
     <style type="text/css">
-        table {
-            border-collapse: collapse;
-        }
+        table { border-collapse: collapse; }
 
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
+        table, th, td { border: 1px solid black; }
 
-        td {
-            padding: 20px;
-        }
+        td { padding: 20px; }
 
-        .panel-container {
-            height: 100%;
-        }
+        .panel-container { height: 90vh; }
 
-        #editor {
-            padding-bottom: 10px;
-        }
+        #nav {background-color: #fafafa; border: none; margin-bottom: 0; height: 10vh;}
+
+        #editor { padding-bottom: 10px; }
 
         /* Extra CodeMirror CSS */
-
-        .CodeMirror {
-            border-top: 1px solid #888;
-            border-bottom: 1px solid #888;
-            height: 99%;
-        }
+        .CodeMirror { border-top: 1px solid #888; border-bottom: 1px solid #888; height: 99%; }
 
         /* Split Panel CSS */
-
-        .panel-left,
-        .panel-right {
-            padding: 10px;
-            min-height: 200px
-        }
-
-        .page-container {
-            margin: 20px
-        }
-
-        .panel-container {
-            display: flex;
-            flex-direction: row;
-            border: 1px solid silver;
-            overflow: hidden;
-            xtouch-action: none
-        }
+        .panel-left, .panel-right { padding: 10px; min-height: 200px }
+        .page-container { margin: 20px; }
+        .panel-container { display: flex; flex-direction: row; border: 1px solid silver; overflow: hidden; }
 
         .panel-left {
             flex: 0 0 auto;
@@ -82,42 +54,11 @@
             background: #eee
         }
     </style>
-    <style id="userStyle">
-        body {
-            font-family: sans-serif
-        }
-
-        #menu {
-            padding-left: 0
-        }
-
-        #menu li {
-            display: inline
-        }
-
-        #menu li:after {
-            content: "/"
-        }
-
-        #menu li:last-child:after {
-            content: ""
-        }
-
-        .post {
-            border: 1px solid #000;
-            padding: 10px;
-            margin-bottom: 20px
-        }
-
-        .post h2 {
-            margin-bottom: 5px
-        }
-    </style>
 </head>
 
 <body>
     <div class="sitebody">
-        <nav class="navbar navbar-inverse" style="background-color: #fafafa; border: none;">
+        <nav class="navbar navbar-inverse" id="nav">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -126,13 +67,13 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
-                    <a class="navbar-brand" href="http://kids.tecanal.org" style="width: auto; font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 13px;"
+                    <a class="navbar-brand" href="http://kids.tecanal.org" style="font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 1.5vh;"
                         href="http://www.kids.tecanal.org">Back to Kids' Corner</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a style="font-family: 'Oxygen', sans-serif; height: 58px;" href="http://kids.tecanal.org/games/">
+                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/games/">
                                 <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
                         </li>
                         <li>
@@ -172,6 +113,8 @@
     <!-- Splitter Panel JavaScript -->
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-resizable.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
         var table = document.getElementById("mosaic");
