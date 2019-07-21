@@ -128,11 +128,12 @@
             // Create table with height and width parameters
             for (var i = 0; i < height; i++) {
                 var row = table.insertRow(i);
-                for (var j = 0; j < width; j++) {
+
+                for (var j = 0; j < width; j++) 
                     row.insertCell(j);
-                }
             }
 
+            // Create array with white as default pixel color
             this.cellColors = [];
             for (var i = 0; i < this.height; i++) {
                 var row = [];
@@ -143,11 +144,17 @@
                 this.cellColors.push(row);
             }
 
-            this.setPixel = function (color, x, y) {
+            /**
+             * Set the pixel color at x, y.
+            */
+            this.setPixel = function(color, x, y) {
                 this.cellColors[this.height - 1 - y][x] = color;
             };
 
-            this.updatePicture = function () {
+            /**
+             * Update the Picture display.
+            */
+            this.update = function() {
                 var rows = table.rows;
 
                 // Set the colors of all the cells
@@ -158,6 +165,15 @@
                         row.children[j].style.backgroundColor = this.cellColors[i][j];
                 }
             };
+
+            /**
+             * Clears the Picture's pixel color values.
+            */
+            this.clear = function() {
+                for (var i = 0; i < this.width; i++) 
+                    for (var j = 0; j < this.height; j++) 
+                        this.setPixel('white', i, j);
+            }
         }
     </script>
     <script>
@@ -174,7 +190,10 @@
                 autoCloseTags: true,
                 autoCloseBrackets: true,
                 lineNumbers: true,
-                value: "var img = new Picture(5, 5);\n\nimg.setPixel('black', 0, 0);\n\nimg.updatePicture();"
+                indentWithTabs: true,
+                lineWrapping: true,
+                autofocus: true,
+                value: "var pic = new Picture(5, 5);\n\npic.setPixel('black', 0, 0);\n\npic.update();"
             });
 
             // When the editor is updated handler
@@ -208,6 +227,7 @@
                         script.appendChild(document.createTextNode(code));
                         document.body.appendChild(script);
                     }
+                    
                     firstRun = false;
                 } catch (e) {
                     script.text = code;
