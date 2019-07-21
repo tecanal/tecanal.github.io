@@ -119,42 +119,100 @@
     <script>
         var table = document.getElementById("mosaic");
 
-        function Picture(height, width) {
-            this.height = height;
-            this.width = width;
+        /**
+         * Converts a decimal string to hex.
+         */
+        function toHex(d) {
+            return  ("0"+(Number(d).toString(16))).slice(-2).toUpperCase();
+        }
 
-            table.innerHTML = "";
+        class Color {
+            /**
+             * Generates a random color.
+             */
+            static random() {
+                let letters = "0123456789ABCDEF";
+                let color = "#";
 
-            // Create table with height and width parameters
-            for (var i = 0; i < height; i++) {
-                var row = table.insertRow(i);
-
-                for (var j = 0; j < width; j++) 
-                    row.insertCell(j);
-            }
-
-            // Create array with white as default pixel color
-            this.cellColors = [];
-            for (var i = 0; i < this.height; i++) {
-                var row = [];
-
-                for (var j = 0; j < this.width; j++)
-                    row.push("#ffffff");
-
-                this.cellColors.push(row);
-            }
+                for (var i = 0; i < 6; i++) 
+                    color += letters[Math.floor(Math.random() * 16)];
+            
+                return color;
+            };
 
             /**
+             * Invert the color.
+             */
+            static invert(colorString) {
+                if (colorString.length == 7) {
+                    colorString = colorString.replace("#", "");
+
+                    let redString = colorString.substring(0, 2);
+                    let greenString = colorString.substring(2, 4);
+                    let blueString = colorString.substring(4, 6);
+
+                    let redValue = 255 - parseInt(redString, 16);
+                    let greenValue = 255 - parseInt(greenString, 16);
+                    let blueValue = 255 - parseInt(blueString, 16);
+
+                    redString = toHex(redValue);
+                    greenString = toHex(greenValue);
+                    blueString = toHex(blueValue);
+
+                    return "#" + redString + greenString + blueString;                    
+                }
+                else 
+                    return colorString;
+            };
+        }
+
+        class Picture {
+            constructor(height, width) {
+                // Set the height and width
+                this.height = height;
+                this.width = width;
+
+                // Clear any leftover table HTML
+                table.innerHTML = "";
+
+                // Create table with height and width parameters
+                for (var i = 0; i < height; i++) {
+                    var row = table.insertRow(i);
+
+                    for (var j = 0; j < width; j++) 
+                        row.insertCell(j);
+                }
+
+                // Create array with white as default pixel color
+                this.cellColors = [];
+                for (var i = 0; i < this.height; i++) {
+                    var row = [];
+
+                    for (var j = 0; j < this.width; j++)
+                        row.push("#ffffff");
+
+                    this.cellColors.push(row);
+                }
+            };
+            
+            /**
              * Set the pixel color at x, y.
-            */
-            this.setPixel = function(color, x, y) {
+             */
+            setPixel(color, x, y) {
                 this.cellColors[this.height - 1 - y][x] = color;
             };
 
             /**
+             * Get the pixel color at x, y.
+             */
+            getPixel(x, y) {
+                return this.cellColors[this.height - 1 - y][x];
+            };
+            
+            /**
              * Update the Picture display.
-            */
-            this.update = function() {
+             */
+            update() {
                 var rows = table.rows;
 
                 // Set the colors of all the cells
@@ -167,13 +225,13 @@
             };
 
             /**
-             * Clears the Picture's pixel color values.
-            */
-            this.clear = function() {
+             * Clear the Picture's pixel color values.
+             */
+            clear() {
                 for (var i = 0; i < this.width; i++) 
                     for (var j = 0; j < this.height; j++) 
                         this.setPixel('white', i, j);
-            }
+            };
         }
     </script>
     <script>
