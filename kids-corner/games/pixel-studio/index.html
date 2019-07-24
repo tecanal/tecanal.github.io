@@ -1,338 +1,431 @@
 <html>
 
-<head>
-    <title>Pixel Studio</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <title>Pixel Studio</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/codemirror.css">
-    <link rel="stylesheet" href="addon/hint/show-hint.css">
-    <style type="text/css">
-        table { border-collapse: collapse; }
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="lib/codemirror.css">
+        <link rel="stylesheet" href="addon/hint/show-hint.css">
+        <style type="text/css">
+            table { border-collapse: collapse; }
 
-        table, th, td { border: 1px solid black; }
+            .nav-tabs li {
+                display: block;
+                padding: .5rem 1rem;
+                border: 1px solid transparent;
+                border-top-left-radius: .25rem;
+                border-top-right-radius: .25rem;
+            }
 
-        td { padding: 20px; }
+            .nav-tabs li.active {
+                color: #495057;
+                background-color: #fff;
+                border-color: #dee2e6 #dee2e6 #fff;
+            }
 
-        .panel-container { height: 90vh; }
+            .nav-tabs li a {
+                text-decoration: none;
+            }
 
-        #nav {background-color: #fafafa; border: none; margin-bottom: 0; height: 10vh;}
+            code {white-space: pre-wrap; color: black; }
 
-        #editor { padding-bottom: 10px; }
-        
-        #console { width: 100%; height: 30%; }
+            table, th, td { border: 1px solid black; }
 
-        /* Extra CodeMirror CSS */
-        .CodeMirror { border-top: 1px solid #888; border-bottom: 1px solid #888; height: 99%; }
+            td { padding: 20px; }
 
-        /* Split Panel CSS */
-        .panel-left, .panel-right { padding: 10px; min-height: 200px }
-        .page-container { margin: 20px; }
-        .panel-container { display: flex; flex-direction: row; border: 1px solid silver; overflow: hidden; }
+            #nav { border: none; margin-bottom: 0; height: 5vh; border-radius: 0px; }
 
-        .panel-left {
-            flex: 0 0 auto;
-            width: 300px;
-            min-width: 150px;
-            white-space: nowrap;
-            background: #838383;
-            color: #fff
-        }
+            .panel-container { height: 91vh; }
 
-        .splitter {
-            flex: 0 0 auto;
-            width: 18px;
-            background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
-            min-height: 200px;
-            cursor: col-resize
-        }
+            #editor { padding-bottom: 10px; }
+            
+            #console { width: 100%; height: 30%; }
 
-        .panel-right {
-            flex: 1 1 auto;
-            width: 100%;
-            min-width: 200px;
-            background: #eee
-        }
-    </style>
-</head>
+            /* Extra CodeMirror CSS */
+            .CodeMirror { border-top: 1px solid #888; border-bottom: 1px solid #888; height: 99%; }
 
-<body>
-    <div class="sitebody">
-        <nav class="navbar navbar-inverse" id="nav">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!--<img src="img/kidscornericon.png" width="75px;" style="float:left;  margin-right: 5px;"></img>-->
-                    <a class="navbar-brand" href="http://kids.tecanal.org" style="font-family: 'Oxygen', sans-serif; font-weight: 800; font-size: 30px; margin-top: 1.5vh;"
-                        href="http://www.kids.tecanal.org">Back to Kids' Corner</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/games/">
-                                <i class="fa fa-gamepad" style="font-size:2em; margin-right: 3px;"></i>Games</a>
-                        </li>
-                        <li>
-                            <a style="font-family: 'Oxygen', sans-serif;" href="http://kids.tecanal.org/stem-library">
-                                <i class="fa fa-book" style="font-size:2em; margin-right: 3px;"></i>STEM Library</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            /* Split Panel CSS */
+            .panel-left, .panel-right { padding: 10px; min-height: 200px }
+            .page-container { margin: 20px; }
+            .panel-container { display: flex; flex-direction: row; border: 1px solid silver; overflow: hidden; }
+
+            .panel-left {
+                flex: 0 0 auto;
+                width: 300px;
+                min-width: 150px;
+                white-space: nowrap;
+                background: #838383;
+                color: #fff
+            }
+
+            .splitter {
+                flex: 0 0 auto;
+                width: 18px;
+                background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+                min-height: 200px;
+                cursor: col-resize
+            }
+
+            .panel-right {
+                flex: 1 1 auto;
+                width: 100%;
+                min-width: 200px;
+                background: #eee
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <!-- Blue with white text -->
+        <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+            <ul class="navbar-nav">
+                <a class="navbar-brand" href="#">TeCanal Pixel Studio</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="#codeSamples" data-toggle="modal" data-target=".bd-example-modal-lg">Code Samples</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#help" data-toggle="modal" data-target=".bd-example-modal-lg">Help</a>
+                </li>
+            </ul>
         </nav>
-    </div>
-</body>
 
-<body>
-    <div class="panel-container">
-        <!-- CodeMirrorEditor -->
-        <div class="panel-left" style="width: 50%">
-            <div id="editor"></div>
-        </div>
+        <div class="modal fade" id="codeSamples">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Code Samples</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+            
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div role="tabpanel">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#blinker" role="tab" data-toggle="tab">Blinker</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#onClick" role="tab" data-toggle="tab">On Click Pixel Alternate</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#scrollText" role="tab" data-toggle="tab">Scroll Text</a>
+                                </li>
+                            </ul>
 
-        <div class="splitter"></div>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="blinker">
+                                        <h5 class="mt-2">
+                                            Blinker 
+                                            <small>(<a onclick="copyToEditor()" href="#">Copy to Editor</a>)</small>
+                                        </h5>
+                                        <code class="card card-body">var pic = new Picture(5, 5);
+var flag = 1;
 
-        <!-- HTML Preview -->
-        <div class="panel-right" style="height: 100%; overflow: scroll">
-            <div id="preview">
-                <table id="mosaic"></table>
-               
-                <b>Console (<a href="javascript:void(0);" onclick="clearConsole()">Clear</a>):</b>
-                <textarea id="console" readonly></textarea>
+// Every half second have the origin pixel change color
+Picture.loop(function() {
+    if (flag == 1) {
+        pic.setPixelColor(0, 0, "white");
+        flag = 0;
+    }
+    else {
+        pic.setPixelColor(0, 0, "black");
+        flag = 1;
+    }
+}, 500);</code>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="onClick">
+                                    <h5 class="mt-2">
+                                        On Click Pixel Alternate
+                                        <small>(<a onclick="copyToEditor()" href="#">Copy to Editor</a>)</small>
+                                    </h5>
+                                    <code class="card card-body">var pic = new Picture(5, 5); 
+pic.setPixelColor(0, 0, 'black'); 
+pic.setPixelOnClick(0, 0, function() { 
+    if (pic.getPixelColor(0, 0) == "red") 
+        pic.setPixelColor(0, 0, "black") 
+    else 
+    pic.setPixelColor(0, 0, "red"); 
+});</code>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="scrollText">
+                                    <h5 class="mt-2">
+                                        Scroll Text
+                                        <small>(<a onclick="copyToEditor()" href="#">Copy to Editor</a>)</small>
+                                    </h5>
+                                    <code class="card card-body">var pic = new Picture(5, 10); 
+var positions = [2, 3, 4, 6]; 
+
+// Set the animation rate to 2 frames per second 
+Picture.loop(function() { 
+    for (var i = 0; i < positions.length; i++) { 
+        // If the pixel is at the beginning, go to end of screen 
+        if (positions[i] === 0) 
+            positions[i] = 9; 
+        // Move the pixel by one 
+        else 
+            positions[i] = positions[i] - 1; 
+    }
+    // Clear picture 
+    pic.clear(); 
+
+    // Update left part of H 
+    pic.setPixelColor(positions[0], 1, 'black'); 
+    pic.setPixelColor(positions[0], 2, 'black'); 
+    pic.setPixelColor(positions[0], 3, 'black'); 
+    
+    // Update middle part of H 
+    pic.setPixelColor(positions[1], 2, 'black'); 
+    
+    // Update right part of H 
+    pic.setPixelColor(positions[2], 1, 'black'); 
+    pic.setPixelColor(positions[2], 2, 'black'); 
+    pic.setPixelColor(positions[2], 3, 'black'); 
+    // Update I 
+    pic.setPixelColor(positions[3], 1, 'black'); 
+    pic.setPixelColor(positions[3], 2, 'black'); 
+    pic.setPixelColor(positions[3], 3, 'black'); 
+}, 500);</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- CodeMirror JavaScript -->
-    <script src="lib/codemirror.js"></script>
-    <script src="addon/edit/closetag.js"></script>
-    <script src="addon/edit/closebrackets.js"></script>
-    <script src="mode/javascript/javascript.js"></script>
+        <div class="modal fade" id="help">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Help</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        
+                    </div>
+                
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Splitter Panel JavaScript -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-resizable.min.js"></script>
+        <div class="panel-container">
+            <!-- CodeMirrorEditor -->
+            <div class="panel-left" style="width: 50%">
+                <div id="editor"></div>
+            </div>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <div class="splitter"></div>
 
-    <script>
-        var table = document.getElementById("mosaic");
+            <!-- HTML Preview -->
+            <div class="panel-right" style="height: 100%; overflow: scroll">
+                <div id="preview">
+                    <table id="mosaic"></table>
+                
+                    <br>
+                    <b>Console (<a href="javascript:clearConsole();">Clear</a>):</b>
+                    <textarea id="console" readonly></textarea>
+                </div>
+            </div>
+        </div>
 
-        /**
-         * Converts a decimal string to hex.
-         */
-        function toHex(d) {
-            return  ("0"+(Number(d).toString(16))).slice(-2).toUpperCase();
-        }
+        <!-- CodeMirror JavaScript -->
+        <script src="lib/codemirror.js"></script>
+        <script src="lib/formatting.js"></script>
+        <script src="addon/edit/closetag.js"></script>
+        <script src="addon/edit/closebrackets.js"></script>
+        <script src="mode/javascript/javascript.js"></script>
 
-        class Color {
+        <!-- Splitter Panel JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="js/jquery-resizable.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+        <script>
+            var table = document.getElementById("mosaic");
+
             /**
-             * Generates a random color.
-             */
-            static random() {
-                let letters = "0123456789ABCDEF";
-                let color = "#";
-
-                for (var i = 0; i < 6; i++) 
-                    color += letters[Math.floor(Math.random() * 16)];
-            
-                return color;
-            };
-
-            /**
-             * Invert the color.
-             */
-            static invert(colorString) {
-                if (colorString.length == 7) {
-                    colorString = colorString.replace("#", "");
-
-                    let redString = colorString.substring(0, 2);
-                    let greenString = colorString.substring(2, 4);
-                    let blueString = colorString.substring(4, 6);
-
-                    let redValue = 255 - parseInt(redString, 16);
-                    let greenValue = 255 - parseInt(greenString, 16);
-                    let blueValue = 255 - parseInt(blueString, 16);
-
-                    redString = toHex(redValue);
-                    greenString = toHex(greenValue);
-                    blueString = toHex(blueValue);
-
-                    return "#" + redString + greenString + blueString;                    
-                }
-                else 
-                    return colorString;
-            };
-        }
-
-        class Picture {
-            constructor(height, width) {
-                // Set the height and width
-                this.picHeight = height;
-                this.picWidth = width;
-
-                // Clear any leftover table HTML
-                table.innerHTML = "";
-
-                // Create table with height and width parameters
-                for (var i = 0; i < height; i++) {
-                    var row = table.insertRow(i);
-
-                    for (var j = 0; j < width; j++) 
-                        row.insertCell(j);
-                }
-
-                // Create array with white as default pixel color
-                this.cellColors = [];
-                for (var i = 0; i < this.picHeight; i++) {
-                    var row = [];
-
-                    for (var j = 0; j < this.picWidth; j++)
-                        row.push("#ffffff");
-
-                    this.cellColors.push(row);
-                }
-            };
-            
-            /**
-             * Set the height of the Picture object.
-             */
-            set height(h) {
-                this.picHeight = h;
+            * Converts a decimal string to hex.
+            */
+            function toHex(d) {
+                return  ("0"+(Number(d).toString(16))).slice(-2).toUpperCase();
             }
 
-            /**
-             * Get the width of the Picture object.
-             */
-            set width(w) {
-                this.picWidth = w;
-            }
-            
-            /**
-             * Get the height of the Picture object.
-             */
-            get height() {
-                return this.picHeight;
+            class Color {
+                /**
+                * Generates a random color.
+                */
+                static random() {
+                    let letters = "0123456789ABCDEF";
+                    let color = "#";
+
+                    for (var i = 0; i < 6; i++) 
+                        color += letters[Math.floor(Math.random() * 16)];
+                
+                    return color;
+                };
+
+                /**
+                * Invert the color.
+                */
+                static invert(colorString) {
+                    if (colorString.length == 7) {
+                        colorString = colorString.replace("#", "");
+
+                        let redString = colorString.substring(0, 2);
+                        let greenString = colorString.substring(2, 4);
+                        let blueString = colorString.substring(4, 6);
+
+                        let redValue = 255 - parseInt(redString, 16);
+                        let greenValue = 255 - parseInt(greenString, 16);
+                        let blueValue = 255 - parseInt(blueString, 16);
+
+                        redString = toHex(redValue);
+                        greenString = toHex(greenValue);
+                        blueString = toHex(blueValue);
+
+                        return "#" + redString + greenString + blueString;                    
+                    }
+                    else 
+                        return colorString;
+                };
             }
 
-            /**
-             * Get the width of the Picture object.
-             */
-            get width() {
-                return this.picWidth;
-            }
-            
-            /**
-             * Set the pixel color at x, y.
-             */
-            setPixel(color, x, y) {
-                this.cellColors[this.picHeight - 1 - y][x] = color;
-            };
+            class Picture {
+                constructor(height, width) {
+                    // Set the height and width
+                    this.picHeight = height;
+                    this.picWidth = width;
 
-            /**
-             * Get the pixel color at x, y.
-             */
-            getPixel(x, y) {
-                return this.cellColors[this.picHeight - 1 - y][x];
-            };
-            
-            /**
-             * Set the pixel color at x, y.
-             */
-            pixelOnClick(x, y, func) {
-                table.rows[i].children[j].addEventListener("click", func);
-            }
-            
-            /**
-             * Update the Picture display.
-             */
-            update() {
-                var rows = table.rows;
+                    // Clear any leftover table HTML
+                    table.innerHTML = "";
 
-                // Set the colors of all the cells
-                for (var i = 0; i < rows.length; i++) {
-                    var row = rows[i];
+                    // Create table with height and width parameters
+                    for (var i = 0; i < height; i++) {
+                        var row = table.insertRow(i);
 
-                    for (var j = 0; j < row.children.length; j++)
-                        row.children[j].style.backgroundColor = this.cellColors[i][j];
+                        for (var j = 0; j < width; j++) 
+                            row.insertCell(j);
+                    }
+
+                    // Create array with white as default pixel color
+                    this.cellColors = [];
+                    for (var i = 0; i < this.picHeight; i++) {
+                        var row = [];
+
+                        for (var j = 0; j < this.picWidth; j++)
+                            row.push("#ffffff");
+
+                        this.cellColors.push(row);
+                    }
+                };
+                
+                /**
+                * Set the height of the Picture object.
+                */
+                set height(h) {
+                    this.picHeight = h;
                 }
-            };
 
-            /**
-             * Clear the Picture's pixel color values.
-             */
-            clear() {
-                for (var i = 0; i < this.picWidht; i++) 
-                    for (var j = 0; j < this.picHeight; j++) 
-                        this.setPixel('white', i, j);
-            };
-        }
-    </script>
-    <script>
-        window.onload = function () {
-            // Create splitter panel
-            $(".panel-left").resizable({
-                handleSelector: ".splitter",
-                resizeHeight: false
-            });
-
-            // Create CodeMirror editor
-            var editor = CodeMirror(document.getElementById("editor"), {
-                mode: "javascript",
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                lineNumbers: true,
-                indentWithTabs: true,
-                lineWrapping: true,
-                autofocus: true,
-                value: "var pic = new Picture(5, 5);\n\npic.setPixel('black', 0, 0);\n\npic.update();"
-            });
-            
-            /**
-             * When the window loads, get saved code.
-             */
-            window.onload = function() {
-                // Test for localStorage capabilities
-                var hasLocalStorage = false;
-                try {
-                    var test = 'test';
-
-                    localStorage.setItem(test, test);
-                    localStorage.removeItem(test);
-
-                    hasLocalStorage = true;
-                } catch(e) {
-                    hasLocalStorage = false;
-                } 
-
-
-                // If the browser supports localStorage
-                if (hasLocalStorage) {
-                    // Get CodeMirror instance
-                    // var editor = document.querySelector('.CodeMirror').CodeMirror;
-
-                    // Check if the user has code saved before
-                    if (localStorage.getItem("code"))
-                        editor.setValue(localStorage.getItem("code"));
-
-                    // Save the code every three seconds
-                    setInterval(function() {
-                        localStorage.setItem("code", editor.getValue());
-                    }, 3000);
+                /**
+                * Get the width of the Picture object.
+                */
+                set width(w) {
+                    this.picWidth = w;
                 }
-            };
-            
+                
+                /**
+                * Get the height of the Picture object.
+                */
+                get height() {
+                    return this.picHeight;
+                }
+
+                /**
+                * Get the width of the Picture object.
+                */
+                get width() {
+                    return this.picWidth;
+                }
+                
+                /**
+                * Set the pixel color at x, y.
+                */
+                setPixelColor(x, y, color) {
+                    // this.cellColors[this.picHeight - 1 - y][x] = color;
+                    table.rows[this.picHeight - 1 - y].children[x].style.backgroundColor = color;
+                };
+
+                /**
+                * Get the pixel color at x, y.
+                */
+                getPixelColor(x, y) {
+                    return table.rows[this.picHeight - 1 - y].children[x].style.backgroundColor;
+                };
+                
+                /**
+                * Set the pixel color at x, y.
+                */
+                setPixelOnClick(x, y, func) {
+                    table.rows[this.picHeight - 1 - y].children[x].addEventListener("click", func)
+                }
+
+                /**
+                 * A wrapper function to allow animation looping.
+                 */
+                static loop(func, time) {
+                    setInterval(func, time);
+                }
+
+                /**
+                * Clear the Picture's pixel color values.
+                */
+                clear() {
+                    for (var i = 0; i < this.picWidth; i++) 
+                        for (var j = 0; j < this.picHeight; j++) 
+                            this.setPixelColor(i, j, '#eeeeee');
+                };
+            }
+        </script>
+        <script>
             /**
              * Clear the contents of the onscreen console.
              */
             function clearConsole() {
                 document.getElementById("console").value = "";
+            }
+
+            /**
+             * Copy contents of code sample to editor.
+             */
+            function copyToEditor() {
+                // Set value of editor to example
+                var editor = document.querySelector('.CodeMirror').CodeMirror;
+                editor.setValue($(".tab-pane.active > code").text());
+
+                // Close modal
+                $(".modal").modal("hide");
             }
 
             /**
@@ -343,67 +436,150 @@
                 console.log = function(message) {
                     var consoleEl = document.getElementById("console");
 
-
                     // Append value to the end if there is already log output
                     if (consoleEl.value)
                         consoleEl.value += "\n" + message;
-
                     // Set the new value of log output
-
                     else
-
                         consoleEl.value = message;
-
 
                     oldLog.apply(console, arguments);
                 };
             })();
 
-            // When the editor is updated handler
-            var delay;
-            var firstRun = true;
+            window.onload = function () {
+                // Create splitter panel
+                $(".panel-left").resizable({
+                    handleSelector: ".splitter",
+                    resizeHeight: false
+                });
 
-            executeCode();
+                // Create CodeMirror editor
+                var editor = CodeMirror(document.getElementById("editor"), {
+                    mode: "javascript",
+                    autoCloseTags: true,
+                    autoCloseBrackets: true,
+                    lineNumbers: true,
+                    indentWithTabs: true,
+                    lineWrapping: true,
+                    autofocus: true,
+                    value: "var pic = new Picture(5, 5);\n\npic.setPixelColor(0, 0, 'black');",
+                    extraKeys: {
+                        "Ctrl-S": function(instance) { 
+                           commentSelection(true);
+                        },
+                    }      
+                });
 
-            function executeCode() {
-                // Clear all intervals if its an animation
-                for (var i = 1; i < 999999; i++)
-                    window.clearInterval(i);
-
-                // Get code from editor
-                var code = editor.getValue();
-
-                // Add code as a script to page + execute
-                var script = document.createElement('script');
-                try {
-                    // If its first time executing something
-                    if (firstRun) {
-                        // Add script tag
-                        script.appendChild(document.createTextNode(code));
-                        document.body.appendChild(script);
-                    }
-                    else {
-                        // Remove old code
-                        document.body.removeChild(document.body.lastChild);
-
-                        // Add new code
-                        script.appendChild(document.createTextNode(code));
-                        document.body.appendChild(script);
-                    }
-                    
-                    firstRun = false;
-                } catch (e) {
-                    script.text = code;
-                    document.body.appendChild(script);
+                CodeMirror.commands["selectAll"](editor);
+      
+                function getSelectedRange() {
+                    return { from: editor.getCursor(true), to: editor.getCursor(false) };
                 }
-            }
+      
+                function autoFormatSelection() {
+                    var range = getSelectedRange();
+                    editor.autoFormatRange(range.from, range.to);
+                }
+      
+                function commentSelection(isComment) {
+                    var range = getSelectedRange();
+                    editor.commentRange(isComment, range.from, range.to);
+                }      
 
-            editor.on("change", function () {
-                clearTimeout(delay);
-                delay = setTimeout(executeCode, 300);
-            });
-        };
-    </script>
-</body>
+                /**
+                * When the window loads, get saved code.
+                */
+                window.onload = function() {
+                    // Test for localStorage capabilities
+                    var hasLocalStorage = false;
+                    try {
+                        var test = 'test';
 
+                        localStorage.setItem(test, test);
+                        localStorage.removeItem(test);
+
+                        hasLocalStorage = true;
+                    } catch(e) {
+                        hasLocalStorage = false;
+                    }
+
+                    // If the browser supports localStorage
+                    if (hasLocalStorage) {
+                        // Get CodeMirror instance
+                        var editor = document.querySelector('.CodeMirror').CodeMirror;
+
+                        // Check if the user has code saved before
+                        if (localStorage.getItem("code"))
+                            editor.setValue(localStorage.getItem("code"));
+                    }
+
+                    /**
+                     * Listen for Escape keypress.
+                     */
+                    document.onkeyup = function(e) {
+                        if (e.key == "Escape") {
+                            $(".modal").modal("hide");
+                        }
+                    };
+
+                    $('.nav-link').click(function(e) {
+                        e.preventDefault();
+         
+                        $('#' + e.target.href.split("#")[1]).modal();
+                    });
+
+                    $(".nav-tabs li a").click(function(e) {
+                        $(".nav-tabs li").removeClass("active");
+                        $(this).parent().addClass("active");
+                    });
+                }();
+
+                // When the editor is updated handler
+                var delay;
+                var firstRun = true;
+
+                executeCode();
+
+                function executeCode() {
+                    // Clear all intervals if its an animation
+                    for (var i = 1; i < 999999; i++)
+                        window.clearInterval(i);
+
+                    // Get code from editor
+                    var code = editor.getValue();
+
+                    // Add code as a script to page + execute
+                    var script = document.createElement('script');
+                    try {
+                        // If its first time executing something
+                        if (firstRun) {
+                            // Add script tag
+                            script.appendChild(document.createTextNode(code));
+                            document.body.appendChild(script);
+                        }
+                        else {
+                            // Remove old code
+                            document.body.removeChild(document.body.lastChild);
+
+                            // Add new code
+                            script.appendChild(document.createTextNode(code));
+                            document.body.appendChild(script);
+                        }
+                        
+                        firstRun = false;
+                    } catch (e) {
+                        script.text = code;
+                        document.body.appendChild(script);
+                    }
+                }
+
+                editor.on("change", function () {
+                    clearTimeout(delay);
+                    delay = setTimeout(executeCode, 300);
+                    localStorage.setItem("code", editor.getValue());
+                });
+            };
+        </script>
+    </body>
 </html>
