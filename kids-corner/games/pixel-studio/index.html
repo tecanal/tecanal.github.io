@@ -21,6 +21,8 @@
         #nav {background-color: #fafafa; border: none; margin-bottom: 0; height: 10vh;}
 
         #editor { padding-bottom: 10px; }
+        
+        #console { width: 100%; }
 
         /* Extra CodeMirror CSS */
         .CodeMirror { border-top: 1px solid #888; border-bottom: 1px solid #888; height: 99%; }
@@ -100,6 +102,9 @@
         <div class="panel-right" style="height: 100%; overflow: scroll">
             <div id="preview">
                 <table id="mosaic"></table>
+               
+                <b>Console (<a href="javascript:void(0);" onclick="clearConsole()">Clear</a>):</b>
+                <textarea id="console" readonly></textarea>
             </div>
         </div>
     </div>
@@ -196,6 +201,21 @@
             };
             
             /**
+             * Get the height of the Picture object.
+             */
+            get height() {
+                return this.height;
+            }
+
+
+            /**
+             * Get the width of the Picture object.
+             */
+            get width() {
+                return this.width;
+            }
+            
+            /**
              * Set the pixel color at x, y.
              */
             setPixel(color, x, y) {
@@ -208,6 +228,13 @@
             getPixel(x, y) {
                 return this.cellColors[this.height - 1 - y][x];
             };
+            
+            /**
+             * Set the pixel color at x, y.
+             */
+            pixelOnClick(x, y, func) {
+                table.rows[i].children[j].addEventListener("click", func);
+            }
             
             /**
              * Update the Picture display.
@@ -253,6 +280,37 @@
                 autofocus: true,
                 value: "var pic = new Picture(5, 5);\n\npic.setPixel('black', 0, 0);\n\npic.update();"
             });
+            
+            /**
+             * Clear the contents of the onscreen console.
+             */
+            function clearConsole() {
+                document.getElementById("console").value = "";
+            }
+
+            /**
+             * Capture console.log() calls and display them onscreen.
+             */
+            (function(){
+                var oldLog = console.log;
+                console.log = function(message) {
+                    var consoleEl = document.getElementById("console");
+
+
+                    // Append value to the end if there is already log output
+                    if (consoleEl.value)
+                        consoleEl.value += "\n" + message;
+
+                    // Set the new value of log output
+
+                    else
+
+                        consoleEl.value = message;
+
+
+                    oldLog.apply(console, arguments);
+                };
+            })();
 
             // When the editor is updated handler
             var delay;
