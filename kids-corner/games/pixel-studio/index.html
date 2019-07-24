@@ -174,8 +174,8 @@
         class Picture {
             constructor(height, width) {
                 // Set the height and width
-                this.height = height;
-                this.width = width;
+                this.picHeight = height;
+                this.picWidth = width;
 
                 // Clear any leftover table HTML
                 table.innerHTML = "";
@@ -190,10 +190,10 @@
 
                 // Create array with white as default pixel color
                 this.cellColors = [];
-                for (var i = 0; i < this.height; i++) {
+                for (var i = 0; i < this.picHeight; i++) {
                     var row = [];
 
-                    for (var j = 0; j < this.width; j++)
+                    for (var j = 0; j < this.picWidth; j++)
                         row.push("#ffffff");
 
                     this.cellColors.push(row);
@@ -204,42 +204,42 @@
              * Set the height of the Picture object.
              */
             set height(h) {
-                this.height = h;
+                this.picHeight = h;
             }
 
             /**
              * Get the width of the Picture object.
              */
             set width(w) {
-                this.width = w;
+                this.picWidth = w;
             }
             
             /**
              * Get the height of the Picture object.
              */
             get height() {
-                return this.height;
+                return this.picHeight;
             }
 
             /**
              * Get the width of the Picture object.
              */
             get width() {
-                return this.width;
+                return this.picWidth;
             }
             
             /**
              * Set the pixel color at x, y.
              */
             setPixel(color, x, y) {
-                this.cellColors[this.height - 1 - y][x] = color;
+                this.cellColors[this.picHeight - 1 - y][x] = color;
             };
 
             /**
              * Get the pixel color at x, y.
              */
             getPixel(x, y) {
-                return this.cellColors[this.height - 1 - y][x];
+                return this.cellColors[this.picHeight - 1 - y][x];
             };
             
             /**
@@ -268,8 +268,8 @@
              * Clear the Picture's pixel color values.
              */
             clear() {
-                for (var i = 0; i < this.width; i++) 
-                    for (var j = 0; j < this.height; j++) 
+                for (var i = 0; i < this.picWidht; i++) 
+                    for (var j = 0; j < this.picHeight; j++) 
                         this.setPixel('white', i, j);
             };
         }
