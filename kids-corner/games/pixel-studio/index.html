@@ -295,6 +295,40 @@
             });
             
             /**
+             * When the window loads, get saved code.
+             */
+            window.onload = function() {
+                // Test for localStorage capabilities
+                var hasLocalStorage = false;
+                try {
+                    var test = 'test';
+
+                    localStorage.setItem(test, test);
+                    localStorage.removeItem(test);
+
+                    hasLocalStorage = true;
+                } catch(e) {
+                    hasLocalStorage = false;
+                } 
+
+
+                // If the browser supports localStorage
+                if (hasLocalStorage) {
+                    // Get CodeMirror instance
+                    // var editor = document.querySelector('.CodeMirror').CodeMirror;
+
+                    // Check if the user has code saved before
+                    if (localStorage.getItem("code"))
+                        editor.setValue(localStorage.getItem("code"));
+
+                    // Save the code every three seconds
+                    setInterval(function() {
+                        localStorage.setItem("code", editor.getValue());
+                    }, 3000);
+                }
+            };
+            
+            /**
              * Clear the contents of the onscreen console.
              */
             function clearConsole() {
