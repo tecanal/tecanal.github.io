@@ -86,8 +86,8 @@
     </head>
 
     <body>
-        <!-- Navbar -->
-        <!-- Blue with white text -->
+        <div id="colorTest" style="display: none;"></div>
+
         <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
             <ul class="navbar-nav">
                 <a class="navbar-brand" href="#">TeCanal Mosaic</a>
@@ -168,7 +168,7 @@ Mosaic.loop(function() {
                                     <code class="card card-body">var moz = new Mosaic(5, 5); 
 moz.setTileColor(0, 0, 'black'); 
 moz.setTileOnClick(0, 0, function() { 
-    if (moz.getPixelColor(0, 0) == "red") 
+    if (moz.getTileColor(0, 0) == "red") 
         moz.setTileColor(0, 0, "black") 
     else 
     moz.setTileColor(0, 0, "red"); 
@@ -394,7 +394,7 @@ Mosaic.loop(function() {
                                         </ul>
                                     </li>
                                     <li>
-                                        <b>setTileColor(x, y, color)</b>: Sets a pixel's color value.
+                                        <b>setTileColor(x, y, color)</b>: Sets a tiles's color value.
                                         <ul>
                                             <li class="mb-2">
                                                 You can use it with HTML color name: <code class="card inline">moz.setTileColor(0, 0, "#gold");</code>
@@ -405,17 +405,64 @@ Mosaic.loop(function() {
                                         </ul>
                                     </li>
                                     <li>
-                                        <b>getPixelColor(x, y)</b>: Gets a pixel's color value.
+                                        <b>setTileBorderColor(x, y)</b>: Sets a tiles's border color value.
                                         <ul>
                                             <li>
-                                                Example: <code class="card inline">moz.getPixelColor(3, 4);</code>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "blue");</code>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <b>setTileOnClick(x, y, func): Set a click event function for a pixel.</b>
+                                        <b>setTileBorderWidth(x, y, width)</b>: Sets a tiles's border width value.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderWidth(3, 4, "3px");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderWidth(3, 4, "thick");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderWidth(3, 4, "medium");</code>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>setTileBorderStyle(x, y, style)</b>: Sets a tiles's border style value.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "dotted");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "dashed");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "double");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "solid");</code>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>setTileBorder(x, y, color, width, style)</b>: Sets a tiles's border.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileBorderColor(3, 4, "blue");</code>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>setTileOnClick(x, y, func): Set a click event function for a tile.</b>
                                         <ul>
                                             Example: <code class="card inline">moz.setTileOnClick(3, 4, function() { console.log("Hello, World!"); });</code>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>getTileColor(x, y)</b>: Gets a tile's color value.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.getTileColor(3, 4);</code>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li>
@@ -448,12 +495,28 @@ Mosaic.loop(function() {
                             <div role="tabpanel" class="tab-pane" id="color">
                                 <h5 class="mt-2">Color Class Methods</h5>
                                 <ul class="docs">
-                                    <b>Color.random()</b>: Get a random color value.
-                                    <ul>
-                                        <li>
-                                            Example: <code class="card inline">moz.setTileColor(0, 0, Color.random());</code>
-                                        </li>
-                                    </ul>
+                                    <li>
+                                        <b>Color.random()</b>: Get a random color value.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileColor(0, 0, Color.random());</code>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>Color.invert()</b>: Inverts a given color value.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">Color.invert("black");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">Color.invert("#3954AE");</code>
+                                            </li>
+                                            <li>
+                                                Example: <code class="card inline">Color.invert("rgb(3, 24, 244)");</code>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -504,13 +567,6 @@ Mosaic.loop(function() {
         <script src="js/api.js"></script>
         <script src="js/editor.js"></script>
         <script>
-            /**
-             * Clear the contents of the onscreen console.
-             */
-            function clearConsole() {
-                document.getElementById("console").value = "";
-            }
-
             /**
              * Copy contents of code sample to editor.
              */

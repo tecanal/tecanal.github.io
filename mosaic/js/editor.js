@@ -3,6 +3,13 @@ var firstRun = true;
 var hasLocalStorage = false;
 
 /**
+ * Clear the contents of the onscreen console.
+ */
+function clearConsole() {
+    document.getElementById("console").value = "";
+}
+
+/**
 * Handle the run code button click to run code for the first time.
 */
 function runCode() {
@@ -16,10 +23,15 @@ function runCode() {
 
     // Attach an event listener 
     var editor = document.querySelector('.CodeMirror').CodeMirror;
-    editor.on("change", function () {
+    editor.on("change", function() {
+        // Reset delay and add delay again
         clearTimeout(delay);
         delay = setTimeout(executeCode, 300);
 
+        // Clear the console log view
+        clearConsole();
+
+        // if localStorage is available, save the code
         if (hasLocalStorage)
             localStorage.setItem("code", editor.getValue());
     });
@@ -31,6 +43,7 @@ function runCode() {
 function stopAnimation() {
     // Re-enable the run code button to restart the animation
     document.getElementById("runCode").disabled = false;
+    document.getElementById("runCode").innerHTML = "Run Code";
 
     // Clear all intervals
     for (var i = 1; i < 999999; i++)
