@@ -473,9 +473,23 @@ Mosaic.loop(function() {
                                         </ul>
                                     </li>
                                     <li>
+                                        <b>setTileText(x, y, text)</b>: Sets a tiles's inner text.
+                                        <ul>
+                                            <li>
+                                                Example: <code class="card inline">moz.setTileText(0, 0, "o");</code>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
                                         <b>setTileOnClick(x, y, func): Set a click event function for a tile.</b>
                                         <ul>
                                             Example: <code class="card inline">moz.setTileOnClick(3, 4, function() { console.log("Hello, World!"); });</code>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <b>setTileOnMouseOver(x, y, func): Set a mouse over event function for a tile.</b>
+                                        <ul>
+                                            Example: <code class="card inline">moz.setTileOnMouseOver(3, 4, function() { console.log("I love Mosaic!"); });</code>
                                         </ul>
                                     </li>
                                     <li>

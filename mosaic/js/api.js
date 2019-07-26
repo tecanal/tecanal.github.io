@@ -109,6 +109,14 @@ class Mosaic {
     get width() {
         return this._width;
     }
+
+    /**
+     * Get the raw DOM element from the table in case the user wants to do something 
+     * outside of the normal Mosaic API.
+     */
+    getTile(x, y) {
+        return table.rows[this._height - 1 - y].children[x];
+    }
                 
     /**
      * Set the tile color at x, y.
@@ -229,11 +237,32 @@ class Mosaic {
     }
 
     /**
+     * Set tile inner text.
+     */
+    setTileText(x, y, text) {
+        table.rows[this._height - 1 - y].children[x].innerText = text;
+    }
+
+    /**
+     * Get tile inner text.
+     */
+    getTileText(x, y) {
+        return table.rows[this._height - 1 - y].children[x].innerText;
+    }
+
+    /**
      * Set the tile click function.
      */
     setTileOnClick(x, y, func) {
         table.rows[this._height - 1 - y].children[x].addEventListener("click", func);
     };
+
+    /**
+     * Set the tile mouseover function.
+     */
+    setTileOnMouseOver(x, y, func) {
+        table.rows[this._height - 1 - y].children[x].addEventListener("mouseover", func);
+    }
 
     /**
      * A wrapper function to allow animation looping.
