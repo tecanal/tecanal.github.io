@@ -15,7 +15,7 @@ if (isMobile()) {
     document.getElementsByClassName("panel-container")[0].style.display = "none";
 
     document.getElementById("runCode").style.display = "none";
-    document.getElementById("stopAnimation").style.display = "none";
+    document.getElementById("stopRunning").style.display = "none";
 
     document.getElementById("mobile").style.display = "";
 }
@@ -35,6 +35,8 @@ function runCode() {
     var el = document.getElementById("runCode");
     el.disabled = true;
     el.innerHTML = "Auto-Run Enabled";
+
+    document.getElementById("stopRunning").disabled = false;
 
     autoRun = true;
 
@@ -62,10 +64,12 @@ function runCode() {
 /**
  * Stop the animation in case it's giving you a headache.
  */
-function stopAnimation() {
+function stopRunning() {
     // Re-enable the run code button to restart the animation
     document.getElementById("runCode").disabled = false;
     document.getElementById("runCode").innerHTML = "Run Code";
+
+    document.getElementById("stopRunning").disabled = true;
 
     autoRun = false;
 
