@@ -93,7 +93,7 @@ app.controller("HomeCtrl", function ($scope) {
         },
         {
             name: "Tench Tilghman Elementary School",
-            time: "Tuesdays, Thursdays; 3:30pm-5:00pm",
+            time: "Tuesdays, Thursdays; 3:15pm-4:15pm",
             address: "600 N Patterson Park Ave Baltimore, MD",
             link: "https://www.google.com/maps/place/Tench+Tilghman+Elementary%2FMiddle+School/@39.2977925,-76.5874221,17z/data=!3m1!4b1!4m5!3m4!1s0x89c80465a31ad6e3:0xb83c2537577e235f!8m2!3d39.2977925!4d-76.5852334",
             waivers: [
