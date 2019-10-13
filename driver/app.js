@@ -367,6 +367,24 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
                 second = moment().day("Thursday").add((7 * i), 'days');
             }
         }
+        // Add John Ruroe dates
+        else if ($scope.destination.name == "John Ruroe") {
+            var first = moment().day("Monday");
+            var second = moment().day("Wednesday");
+
+            for (var i = 1; i < 3; i++) {
+                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                var dateLong = "Monday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+                $scope.dates.push({ "value": date, "long_date": dateLong });
+
+                date = (second.get('month') + 1) + "/" + second.get('date') + "/" + second.get('year');
+                dateLong = "Wednesday: " + months[second.get('month')] + " " + second.get('date') + ", " + second.get('year');
+                $scope.dates.push({ "value": date, "long_date": dateLong });
+
+                first = moment().day("Monday").add((7 * i), 'days');
+                second = moment().day("Wednesday").add((7 * i), 'days');
+            }
+        }
     };
 });
 
