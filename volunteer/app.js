@@ -99,6 +99,16 @@ app.controller("HomeCtrl", function ($scope) {
             waivers: [
                 TECANAL_WAIVER
             ]
+        },
+        {
+            // Code for John Ruhrah
+            name: "John Ruhrah Elementary School",
+            time: "Mondays, Wednesdays; 4:10pm-5:10pm",
+            address: "6820 Fait Ave, Baltimore, MD",
+            link: "https://www.google.com/maps/place/John+Ruhrah+Elementary+School/@39.2513723,-76.823086,11z/data=!4m19!1m13!4m12!1m4!2m2!1d-76.837499!2d39.2626751!4e1!1m6!1m2!1s0x89c80401139a1439:0xd067401f4b5997c8!2sjohn+ruhrah!2m2!1d-76.5305949!2d39.2858364!3m4!1s0x89c80401139a1439:0xd067401f4b5997c8!8m2!3d39.2858364!4d-76.5305949",
+            waivers: [
+                TECANAL_WAIVER
+            ]
         }
     ];
 });
@@ -404,6 +414,24 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
 
                 first = moment().day("Tuesday").add((7 * i), 'days');
                 second = moment().day("Thursday").add((7 * i), 'days');
+            }
+        }
+        // Add John Ruhrah dates
+        else if ($scope.destination.name == "John Ruhrah") {
+            var first = moment().day("Monday");
+            var second = moment().day("Wednesday");
+
+            for (var i = 1; i < 3; i++) {
+                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                var dateLong = "Monday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+                $scope.dates.push({ "value": date, "long_date": dateLong });
+
+                date = (second.get('month') + 1) + "/" + second.get('date') + "/" + second.get('year');
+                dateLong = "Wednesday: " + months[second.get('month')] + " " + second.get('date') + ", " + second.get('year');
+                $scope.dates.push({ "value": date, "long_date": dateLong });
+
+                first = moment().day("Monday").add((7 * i), 'days');
+                second = moment().day("Wednesday").add((7 * i), 'days');
             }
         }
     };
