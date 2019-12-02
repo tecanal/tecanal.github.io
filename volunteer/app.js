@@ -12,7 +12,7 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             templateUrl: "templates/outreach-signup.html",
             controller: 'OutreachSignupCtrl'
         })
-        .when("/admin", {
+        .when("/pinkheadphones", {
             title: "Volunteer Portal Admin Panel",
             templateUrl: "templates/admin.html",
             controller: 'AdminCtrl'
