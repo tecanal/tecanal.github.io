@@ -8,11 +8,11 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
 
     $routeProvider
         .when("/", {
-            title: "Volunteer @ TeCanal",
-            templateUrl: "templates/home.html",
-            controller: 'HomeCtrl'
+            title: "TeCanal Outreach Signup",
+            templateUrl: "templates/outreach-signup.html",
+            controller: 'OutreachSignupCtrl'
         })
-        .when("/admin", {
+        .when("/pinkheadphones", {
             title: "Volunteer Portal Admin Panel",
             templateUrl: "templates/admin.html",
             controller: 'AdminCtrl'
