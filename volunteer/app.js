@@ -40,6 +40,11 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             templateUrl: "templates/driver-registration.html",
             controller: 'DriverRegistrationCtrl'
         })
+        .when("/home", {
+            title: "volunteer @ tecanal",
+            templateUrl: "templates/home.html",
+            controller: 'HomeCtrl'
+        })
         .otherwise({
             redirectTo: "/"
         });
