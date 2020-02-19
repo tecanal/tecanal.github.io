@@ -1,4 +1,4 @@
-var app = angular.module("car-reserve", ["firebase", "ngRoute"]);
+const app = angular.module("car-reserve", ["firebase", "ngRoute"]);
 
 /**
  * Handle application routing so that it is all in one page.
@@ -60,7 +60,7 @@ app.run(['$rootScope', function ($rootScope) {
 }]);
 
 app.controller("HomeCtrl", function ($scope) {
-    var TECANAL_WAIVER = {
+    const TECANAL_WAIVER = {
         name: "TeCanal General Waiver",
         link: "http://res.cloudinary.com/tecanal/raw/upload/v1491913627/TeCanalWaiverOriginal_wwmsfr.pdf"
     };
@@ -120,7 +120,7 @@ app.controller("HomeCtrl", function ($scope) {
 
 app.controller("LeaderboardCtrl", function ($scope, $firebaseArray) {
     // Connect to hours database
-    var hoursRef = firebase.database().ref().child("hours");
+    const hoursRef = firebase.database().ref().child("hours");
     $scope.hours = $firebaseArray(hoursRef);
 });
 
@@ -131,30 +131,30 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
     $scope.noCars = false;
 
     // Connect to cars database
-    var carsRef = firebase.database().ref().child("cars");
+    const carsRef = firebase.database().ref().child("cars");
     $scope.cars = $firebaseArray(carsRef);
 
     /**
      * Add a new rider to the car.
      */
     $scope.addRider = function(carNum) {
-        var currentCar = $scope.cars[carNum];
+        let currentCar = $scope.cars[carNum];
 
         // Checks if maximum amount of riders has been reached
         if (currentCar.numRiders != currentCar.maxRiders) {
-            var name;
-            var isValidName = false;
+            let name;
+            let isValidName = false;
 
             // Validate the name so it is first and last name with no symbols
             while (!isValidName) {
                 // Get name from user
                 name = prompt("What is your name?");
 
-                var errorMsg = "";
+                let errorMsg = "";
                 isValidName = true;
 
                 // Go through every single character and check if it is a letter
-                for (var char of name) {
+                for (let char of name) {
                     if (".!@#$%^&*[]{}()_+=/><\\".indexOf(char) != -1) {
                         isValidName = false;
                         errorMsg += "No symbols allowed.\n";
@@ -191,12 +191,12 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
      * Remove a rider from the car.
      */
     $scope.removeRider = function(carNum) {
-        var currentCar = $scope.cars[carNum];
+        let currentCar = $scope.cars[carNum];
 
-        var name = prompt("What is your name?");
+        let name = prompt("What is your name?");
 
         // Find name of person that can't go anymore
-        for (var i = 0; i < currentCar.names.length; i++) {
+        for (let i = 0; i < currentCar.names.length; i++) {
             // Prevent deletion of driver
             if (name === currentCar.driver) {
                 carsRef.child(currentCar.key).remove();
@@ -221,28 +221,28 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
     carsRef.on('value', function(snapshot) {
         // For every entry in the database
         snapshot.forEach(function(child) {
-            var entry = child.val();
+            let entry = child.val();
 
             // Get today's date
-            var today = new Date(moment().year(), moment().month(), moment().date());
+            let today = new Date(moment().year(), moment().month(), moment().date());
             today = moment(today);
 
             // Get session date
-            var sessionDate = entry.sessionDate;
-            var test = sessionDate.split("/");
+            let sessionDate = entry.sessionDate;
+            let test = sessionDate.split("/");
             // Year, Month (minus one), Day
-            var date = new Date(parseInt(test[2]), parseInt(test[0]) - 1, parseInt(test[1]));
+            let date = new Date(parseInt(test[2]), parseInt(test[0]) - 1, parseInt(test[1]));
             date = moment(date);
 
             // See if outreach session has already passed
             if (today.isAfter(sessionDate) && today != sessionDate) {
                 // Get names of people riding in car
-                var names = entry.names;
+                let names = entry.names;
 
                 // If the car had people riding in it
                 if (names) {
                     // Make name into ref friendly format
-                    var driverName = entry.driver;
+                    let driverName = entry.driver;
                     driverName.replace(" ", "-");
 
                     // Select section of databse for driver
@@ -278,7 +278,7 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
                         $scope.driverHours.$save();
                     });
 
-                    for (var name of names) {
+                    for (let name of names) {
                         // Make name into ref friendly format
                         name.replace(" ", "-");
 
@@ -335,7 +335,7 @@ app.controller("OutreachSignupCtrl", function ($scope, $firebaseArray, $firebase
  */
 app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseArray) {
     // Connect to cars database
-    var carsRef = firebase.database().ref().child("cars");
+    let carsRef = firebase.database().ref().child("cars");
     $scope.cars = $firebaseArray(carsRef);
 
     // Adds a new car to the database with all the form data from Driver Registration page
@@ -357,7 +357,7 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
     };
 
     $scope.dates = [];
-    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     $scope.getDates = function () {
         // If the destination is undefined, don't do anything
@@ -367,32 +367,32 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
 
         // Add Mattie B. outreach dates	
         if ($scope.destination.name == "Mattie B. Uzzle Outreach Center") {
-            var first = moment().day("Friday");
-            for (var i = 1; i < 5; i++) {
-                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
-                var dateLong = "Friday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+            let first = moment().day("Friday");
+            for (let i = 1; i < 5; i++) {
+                let date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                let dateLong = "Friday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
                 $scope.dates.push({ "value": date, "long_date": dateLong });
                 first = moment().day("Friday").add((7 * i), 'days');
             }
         }
         // Add IOSC outreach dates
         else if ($scope.destination.name == "Immigration Outreach Service Center") {
-            var first = moment().day("Saturday");
-            for (var i = 1; i < 5; i++) {
-                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
-                var dateLong = "Saturday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+            let first = moment().day("Saturday");
+            for (let i = 1; i < 5; i++) {
+                let date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                let dateLong = "Saturday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
                 $scope.dates.push({ "value": date, "long_date": dateLong });
                 first = moment().day("Saturday").add((7 * i), 'days');
             }
         }
         // Add Tench Tilghman outreach dates
         else if ($scope.destination.name == "Tench Tilghman") {
-            var first = moment().day("Tuesday");
-            var second = moment().day("Thursday");
+            let first = moment().day("Tuesday");
+            let second = moment().day("Thursday");
 
-            for (var i = 1; i < 3; i++) {
-                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
-                var dateLong = "Tuesday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+            for (let i = 1; i < 3; i++) {
+                let date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                let dateLong = "Tuesday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
                 $scope.dates.push({ "value": date, "long_date": dateLong });
 
                 date = (second.get('month') + 1) + "/" + second.get('date') + "/" + second.get('year');
@@ -405,12 +405,12 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
         }
         // Add EK2K outreach dates
         else if ($scope.destination.name == "EK2K") {
-            var first = moment().day("Tuesday");
-            var second = moment().day("Thursday");
+            let first = moment().day("Tuesday");
+            let second = moment().day("Thursday");
 
-            for (var i = 1; i < 3; i++) {
-                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
-                var dateLong = "Tuesday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+            for (let i = 1; i < 3; i++) {
+                let date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                let dateLong = "Tuesday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
                 $scope.dates.push({ "value": date, "long_date": dateLong });
 
                 date = (second.get('month') + 1) + "/" + second.get('date') + "/" + second.get('year');
@@ -423,12 +423,12 @@ app.controller("DriverRegistrationCtrl", function ($scope, $location, $firebaseA
         }
         // Add John Ruhrah dates
         else if ($scope.destination.name == "John Ruhrah") {
-            var first = moment().day("Monday");
-            var second = moment().day("Wednesday");
+            let first = moment().day("Monday");
+            let second = moment().day("Wednesday");
 
-            for (var i = 1; i < 3; i++) {
-                var date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
-                var dateLong = "Monday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
+            for (let i = 1; i < 3; i++) {
+                let date = (first.get('month') + 1) + "/" + first.get('date') + "/" + first.get('year');
+                let dateLong = "Monday: " + months[first.get('month')] + " " + first.get('date') + ", " + first.get('year');
                 $scope.dates.push({ "value": date, "long_date": dateLong });
 
                 date = (second.get('month') + 1) + "/" + second.get('date') + "/" + second.get('year');
@@ -446,27 +446,36 @@ app.controller("AdminCtrl", function ($scope, $firebaseObject, $firebaseArray) {
     $scope.viewType = "";
 
     // Connect to cars database
-    var carsRef = firebase.database().ref().child("cars");
+    const carsRef = firebase.database().ref().child("cars");
     $scope.cars = $firebaseArray(carsRef);
 
     // Connect to hours database
-    var hoursRef = firebase.database().ref().child("hours");
+    const hoursRef = firebase.database().ref().child("hours");
     $scope.people = $firebaseArray(hoursRef);
 
     /**
      * Deletes the car from the database.
      */
-    $scope.deleteCar = function(index) {
-        $scope.cars.$remove(index);
+    $scope.deleteCar = function(carIndex) {
+        $scope.cars.$remove(carIndex);
     };
+
+    $scope.removePerson = function(carIndex, personIndex) {
+        // console.log($scope.cars[carIndex]);
+
+        $scope.cars[carIndex].names.splice(personIndex, 1);
+        $scope.cars[carIndex].numRiders--;
+
+        $scope.cars.$save($scope.cars[carIndex]);
+    }
 
     /**
      * Deletes an outreach entry in the volunteer's history and removes it from the
      * total hours count.
      */
     $scope.deleteHistoryEntry = function(name, index) {
-        var volunteerRef = firebase.database().ref().child("hours/" + name);
-        var volunteer = $firebaseObject(volunteerRef);
+        let volunteerRef = firebase.database().ref().child("hours/" + name);
+        let volunteer = $firebaseObject(volunteerRef);
 
         volunteer.$loaded(function () {
             // Remove hours from total hours count
@@ -492,13 +501,13 @@ app.filter('tel', function () {
     return function (tel) {
         if (!tel) { return ''; }
 
-        var value = tel.toString().trim().replace(/^\+/, '');
+        let value = tel.toString().trim().replace(/^\+/, '');
 
         if (value.match(/[^0-9]/)) {
             return tel;
         }
 
-        var country, city, number;
+        let country, city, number;
 
         switch (value.length) {
             case 10: // +1PPP####### -> C (PPP) ###-####
