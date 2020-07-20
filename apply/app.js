@@ -36,14 +36,6 @@ app.config(["$routeProvider", "$locationProvider", function($routeProvider, $loc
             templateUrl: "templates/eo-info.html",
             controller: 'InfoPageCtrl'
         })
-        .when("/swe", {
-            templateUrl: "templates/swe-info.html",
-            controller: 'InfoPageCtrl'
-        })
-        .when("/biz-dev", {
-            templateUrl: "templates/biz-dev-info.html",
-            controller: 'InfoPageCtrl'
-        })
         .when("/applications", {
             templateUrl: "templates/applications.html",
             controller: 'ApplicationsCtrl'
